@@ -1,3 +1,5 @@
+"use client";
+
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
@@ -11,7 +13,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative bg-[#080808] border-t border-white/5">
+    <footer className="relative bg-[#080808] border-t border-white/5 w-full">
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid md:grid-cols-3 gap-12">
           {/* Brand */}

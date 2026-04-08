@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useRef, useState } from "react";
 
 const IMAGES = [
@@ -68,7 +70,7 @@ export default function GallerySection() {
     <section
       id="gallery"
       ref={sectionRef}
-      className="relative py-24 md:py-32 bg-[#0F0F0F]"
+      className="relative py-24 md:py-32 bg-[#0F0F0F] w-full"
     >
       {/* Background accent */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-[#C8A45C]/5 rounded-full blur-[150px]" />

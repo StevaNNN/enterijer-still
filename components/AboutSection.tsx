@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useRef, useState } from "react";
 
 const TEAM_IMG =
@@ -64,7 +66,7 @@ export default function AboutSection() {
     <section
       id="about"
       ref={sectionRef}
-      className="relative py-24 md:py-32 bg-[#0A0A0A] overflow-hidden"
+      className="relative py-24 md:py-32 bg-[#0A0A0A] overflow-hidden w-full"
     >
       {/* Subtle background glow */}
       <div className="absolute top-1/2 left-0 w-96 h-96 bg-[#C8A45C]/5 rounded-full blur-[120px] -translate-y-1/2" />

@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useRef, useState } from "react";
 
 const KITCHEN_IMG =
@@ -119,7 +121,7 @@ export default function ServicesSection() {
     <section
       id="services"
       ref={sectionRef}
-      className="relative py-24 md:py-32 bg-[#0A0A0A]"
+      className="relative py-24 md:py-32 bg-[#0A0A0A] w-full"
     >
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}

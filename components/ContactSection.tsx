@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useRef, useState } from "react";
 
 export default function ContactSection() {
@@ -33,7 +35,7 @@ export default function ContactSection() {
     <section
       id="contact"
       ref={sectionRef}
-      className="relative py-24 md:py-32 bg-[#0A0A0A]"
+      className="relative py-24 md:py-32 bg-[#0A0A0A] w-full"
     >
       {/* Background glow */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[#C8A45C]/5 rounded-full blur-[200px]" />
