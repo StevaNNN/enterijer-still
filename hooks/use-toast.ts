@@ -10,6 +10,8 @@ type ToasterToast = ToasterProps & {
   title?: React.ReactNode;
   description?: React.ReactNode;
   action?: typeof Toaster;
+  open?: boolean;
+  onOpenChange: (open?: boolean) => void;
 };
 
 const actionTypes = {
