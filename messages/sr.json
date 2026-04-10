@@ -1,5 +1,155 @@
 {
+  "seo": {
+    "title": "EnterijerStil Kragujevac | Uđite u lepši prostor",
+    "description": "EnterijerStil projektuje, renovira i oprema stambene i poslovne enterijere u Kragujevcu. Uđite u lepši prostor uz rešenja po meri.",
+    "keywords": "enterijer stil, dizajn enterijera kragujevac, renoviranje enterijera, kupatila, kuhinje, poslovni enterijeri, Srbija",
+    "ogImageAlt": "Moderan enterijer kompanije EnterijerStil"
+  },
+  "navbar": {
+    "home": "Početna",
+    "about": "O Nama",
+    "services": "Delatnost",
+    "gallery": "Galerija",
+    "contact": "Kontakt",
+    "cta": "Kontaktirajte Nas",
+    "toggleMenu": "Otvori navigaciju",
+    "theme": "Tema",
+    "lightMode": "Svetla",
+    "darkMode": "Tamna"
+  },
   "hero": {
-    "title": "Pocetna stranica"
+    "titleLine1": "Uđite u",
+    "titleLine2": "lepši prostor",
+    "description": "Kreiramo enterijere koji inspirišu. Više od decenije iskustva u dizajnu, renoviranju i opremanju prostora po najvišim standardima.",
+    "ctaServices": "Naše Usluge",
+    "ctaGallery": "Pogledajte Galeriju",
+    "scroll": "Skrol",
+    "stats": {
+      "experience": "Godina Iskustva",
+      "projects": "Završenih Projekata",
+      "satisfaction": "Zadovoljnih Klijenata"
+    }
+  },
+  "about": {
+    "eyebrow": "O Nama",
+    "titleLine1": "Stvaramo prostore",
+    "titleLine2": "koji inspirišu",
+    "description1": "EnterijerStil je kompanija sa sedištem u Kragujevcu, specijalizovana za dizajn enterijera, renoviranje i opremanje stambenih i poslovnih prostora.",
+    "description2": "Naš pristup kombinuje savremene trendove u dizajnu sa funkcionalnim rešenjima i kvalitetnim materijalima, od idejnog rešenja do finalne realizacije.",
+    "teamAlt": "Tim EnterijerStil",
+    "directorName": "Dejan Timotijević",
+    "directorRole": "Direktor",
+    "stats": {
+      "experience": "Godina Iskustva",
+      "projects": "Projekata",
+      "partners": "Partnera"
+    }
+  },
+  "services": {
+    "eyebrow": "Naša Delatnost",
+    "titleLine1": "Usluge koje",
+    "titleLine2": "pružamo",
+    "items": {
+      "item1": {
+        "title": "Dizajn Enterijera",
+        "description": "Kompletno idejno i tehničko rešenje enterijera stambenih i poslovnih prostora, uz 3D vizualizaciju."
+      },
+      "item2": {
+        "title": "Renoviranje",
+        "description": "Kompletna rekonstrukcija i adaptacija prostora, od rušenja do završnih radova."
+      },
+      "item3": {
+        "title": "Poslovni Prostori",
+        "description": "Projektovanje i opremanje kancelarija, restorana, hotela i drugih komercijalnih objekata."
+      },
+      "item4": {
+        "title": "Kupatila i Wellness",
+        "description": "Luksuzna kupatila i spa zone sa premium materijalima i modernim dizajnom."
+      }
+    }
+  },
+  "gallery": {
+    "eyebrow": "Galerija",
+    "titleLine1": "Naši",
+    "titleLine2": "projekti",
+    "filters": {
+      "all": "Sve",
+      "kitchens": "Kuhinje",
+      "bedrooms": "Spavaće Sobe",
+      "bathrooms": "Kupatila",
+      "livingRooms": "Dnevne Sobe",
+      "commercial": "Komercijalni"
+    },
+    "items": {
+      "item1": { "title": "Moderna Kuhinja" },
+      "item2": { "title": "Luksuzna Spavaća Soba" },
+      "item3": { "title": "Spa Kupatilo" },
+      "item4": { "title": "Dnevni Boravak" },
+      "item5": { "title": "Hotel Lobby" },
+      "item6": { "title": "Poslovni Prostor" }
+    }
+  },
+  "contact": {
+    "eyebrow": "Kontakt",
+    "titleLine1": "Javite nam se",
+    "titleLine2": "slobodno",
+    "mapTitle": "Lokacija EnterijerStil",
+    "form": {
+      "nameLabel": "Vaše Ime *",
+      "namePlaceholder": "Ime i prezime",
+      "emailLabel": "Vaš Email *",
+      "emailPlaceholder": "email@primer.com",
+      "subjectLabel": "Naslov",
+      "subjectPlaceholder": "Tema poruke",
+      "messageLabel": "Poruka",
+      "messagePlaceholder": "Opišite vaš projekat ili pitanje...",
+      "submit": "Pošaljite Poruku",
+      "submitting": "Slanje...",
+      "validation": {
+        "nameRequired": "Unesite vaše ime.",
+        "emailRequired": "Unesite vaš email.",
+        "emailInvalid": "Unesite ispravnu email adresu.",
+        "messageRequired": "Unesite poruku."
+      },
+      "toasts": {
+        "success": "Poruka je uspešno poslata.",
+        "error": "Slanje nije uspelo. Pokušajte ponovo."
+      }
+    },
+    "info": {
+      "phoneTitle": "Telefon",
+      "emailTitle": "Email",
+      "addressTitle": "Adresa"
+    }
+  },
+  "footer": {
+    "description": "Uđite u lepši prostor sa EnterijerStilom. Dizajn enterijera, renoviranje i opremanje prostora po najvišim standardima.",
+    "navigationTitle": "Navigacija",
+    "contactTitle": "Kontakt Informacije",
+    "social": {
+      "facebook": "Facebook",
+      "instagram": "Instagram"
+    },
+    "address": {
+      "line1": "Milovana Vidakovića 4",
+      "line2": "34000 Kragujevac, Srbija"
+    },
+    "maps": {
+      "google": "Google mape",
+      "apple": "Apple mape"
+    },
+    "phones": {
+      "primary": "064/249-04-58",
+      "secondary": "065/88-97-203"
+    },
+    "email": "enterijerstil@gmail.com",
+    "links": {
+      "home": "Početna",
+      "about": "O Nama",
+      "services": "Delatnost",
+      "gallery": "Galerija",
+      "contact": "Kontakt"
+    },
+    "copyright": "© {year} EnterijerStil Kragujevac. Sva prava zadržana."
   }
 }

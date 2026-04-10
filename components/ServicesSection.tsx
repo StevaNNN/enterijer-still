@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 
 const KITCHEN_IMG =
   "https://mgx-backend-cdn.metadl.com/generate/images/1037926/2026-03-18/fcd05b14-315a-40a0-8116-6450b87c36ea.png";
@@ -11,12 +12,22 @@ const OFFICE_IMG =
 const BATHROOM_IMG =
   "https://mgx-backend-cdn.metadl.com/generate/images/1037926/2026-03-18/087bea59-9f49-4978-9a4f-055e5f1f2718.png";
 
-const services = [
+const SERVICE_IMAGES = [
+  KITCHEN_IMG,
+  BEDROOM_IMG,
+  OFFICE_IMG,
+  BATHROOM_IMG,
+];
+
+const serviceSpans = [
+  "lg:col-span-2 lg:row-span-2",
+  "lg:col-span-1",
+  "lg:col-span-1",
+  "lg:col-span-2",
+] as const;
+
+const serviceIcons = [
   {
-    title: "Dizajn Enterijera",
-    description:
-      "Kompletno idejno rešenje i projektovanje enterijera stambenih i poslovnih prostora. 3D vizualizacija i detaljna razrada svakog elementa.",
-    image: KITCHEN_IMG,
     icon: (
       <svg
         className="w-6 h-6"
@@ -32,13 +43,8 @@ const services = [
         />
       </svg>
     ),
-    span: "lg:col-span-2 lg:row-span-2",
   },
   {
-    title: "Renoviranje",
-    description:
-      "Kompletna rekonstrukcija i adaptacija prostora. Od rušenja do finalnih radova.",
-    image: BEDROOM_IMG,
     icon: (
       <svg
         className="w-6 h-6"
@@ -54,13 +60,8 @@ const services = [
         />
       </svg>
     ),
-    span: "lg:col-span-1",
   },
   {
-    title: "Poslovni Prostori",
-    description:
-      "Projektovanje i opremanje kancelarija, restorana, hotela i drugih komercijalnih objekata.",
-    image: OFFICE_IMG,
     icon: (
       <svg
         className="w-6 h-6"
@@ -76,13 +77,8 @@ const services = [
         />
       </svg>
     ),
-    span: "lg:col-span-1",
   },
   {
-    title: "Kupatila & Wellness",
-    description:
-      "Luksuzna kupatila i spa zone sa premium materijalima i modernim dizajnom.",
-    image: BATHROOM_IMG,
     icon: (
       <svg
         className="w-6 h-6"
@@ -98,13 +94,20 @@ const services = [
         />
       </svg>
     ),
-    span: "lg:col-span-2",
   },
-];
+] as const;
 
 export default function ServicesSection() {
+  const t = useTranslations("services");
   const [visible, setVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+  const services = [0, 1, 2, 3].map((idx) => ({
+    title: t(`items.item${idx + 1}.title`),
+    description: t(`items.item${idx + 1}.description`),
+    image: SERVICE_IMAGES[idx],
+    icon: serviceIcons[idx].icon,
+    span: serviceSpans[idx],
+  }));
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -121,7 +124,7 @@ export default function ServicesSection() {
     <section
       id="services"
       ref={sectionRef}
-      className="relative py-24 md:py-32 bg-[#0A0A0A] w-full"
+      className="relative py-24 md:py-32 bg-[var(--surface)] dark:bg-[var(--surface-inverse)] w-full"
     >
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
@@ -131,15 +134,15 @@ export default function ServicesSection() {
           }`}
         >
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-[2px] bg-[#C8A45C]" />
-            <span className="text-[#C8A45C] text-sm tracking-[0.2em] uppercase font-medium">
-              Naša Delatnost
+            <div className="w-8 h-[2px] bg-[var(--brand)]" />
+            <span className="text-[var(--brand)] text-sm tracking-[0.2em] uppercase font-medium">
+              {t("eyebrow")}
             </span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-white leading-tight">
-            Usluge koje
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground dark:text-white leading-tight">
+            {t("titleLine1")}
             <br />
-            <span className="text-white/40">pružamo</span>
+            <span className="text-foreground/60 dark:text-white/40">{t("titleLine2")}</span>
           </h2>
         </div>
 
@@ -163,11 +166,11 @@ export default function ServicesSection() {
               />
 
               {/* Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/60 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500" />
 
               {/* Content */}
               <div className="relative z-10 p-6 md:p-8 flex flex-col justify-end min-h-[280px] lg:min-h-[320px]">
-                <div className="w-12 h-12 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10 flex items-center justify-center text-[#C8A45C] mb-4 transition-all duration-300 group-hover:bg-[#C8A45C]/20 group-hover:border-[#C8A45C]/30">
+                <div className="w-12 h-12 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10 flex items-center justify-center text-[var(--brand)] mb-4 transition-all duration-300 group-hover:bg-[var(--brand)]/20 group-hover:border-[var(--brand)]/40">
                   {service.icon}
                 </div>
                 <h3 className="text-xl md:text-2xl font-bold text-white mb-2">

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 
 const TEAM_IMG =
   "https://mgx-backend-cdn.metadl.com/generate/images/1037926/2026-03-18/4eb978b7-71cd-405b-ba65-b2bcac027c1b.png";
@@ -40,7 +41,7 @@ function AnimatedCounter({
   }, [target]);
 
   return (
-    <span ref={ref} className="text-4xl md:text-5xl font-bold text-[#C8A45C]">
+    <span ref={ref} className="text-4xl md:text-5xl font-bold text-[var(--brand)]">
       {count}
       {suffix}
     </span>
@@ -48,6 +49,7 @@ function AnimatedCounter({
 }
 
 export default function AboutSection() {
+  const t = useTranslations("about");
   const [visible, setVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -66,10 +68,9 @@ export default function AboutSection() {
     <section
       id="about"
       ref={sectionRef}
-      className="relative py-24 md:py-32 bg-[#0A0A0A] overflow-hidden w-full"
+      className="relative py-24 md:py-32 bg-[var(--surface)] dark:bg-[var(--surface-inverse)] overflow-hidden w-full"
     >
-      {/* Subtle background glow */}
-      <div className="absolute top-1/2 left-0 w-96 h-96 bg-[#C8A45C]/5 rounded-full blur-[120px] -translate-y-1/2" />
+      <div className="absolute top-1/2 left-0 w-96 h-96 bg-[var(--brand)]/10 rounded-full blur-[120px] -translate-y-1/2" />
 
       <div className="max-w-7xl mx-auto px-6">
         {/* Section Header */}
@@ -78,9 +79,9 @@ export default function AboutSection() {
             visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
-          <div className="w-8 h-[2px] bg-[#C8A45C]" />
-          <span className="text-[#C8A45C] text-sm tracking-[0.2em] uppercase font-medium">
-            O Nama
+          <div className="w-8 h-[2px] bg-[var(--brand)]" />
+          <span className="text-[var(--brand)] text-sm tracking-[0.2em] uppercase font-medium">
+            {t("eyebrow")}
           </span>
         </div>
 
@@ -91,36 +92,30 @@ export default function AboutSection() {
               visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-6">
-              Stvaramo prostore
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground dark:text-white leading-tight mb-6">
+              {t("titleLine1")}
               <br />
-              <span className="text-white/40">koji inspirišu</span>
+              <span className="text-foreground/60 dark:text-white/40">{t("titleLine2")}</span>
             </h2>
 
-            <p className="text-white/60 text-lg leading-relaxed mb-6">
-              EnterijerStil je kompanija sa sedištem u Kragujevcu,
-              specijalizovana za dizajn enterijera, renoviranje i opremanje
-              stambenih i poslovnih prostora. Sa više od decenije iskustva, naš
-              tim stručnjaka pretvara vaše vizije u stvarnost.
+            <p className="text-foreground/80 dark:text-white/60 text-lg leading-relaxed mb-6">
+              {t("description1")}
             </p>
 
-            <p className="text-white/50 leading-relaxed mb-10">
-              Naš pristup kombinuje savremene trendove u dizajnu sa
-              funkcionalnim rešenjima, koristeći materijale najvišeg kvaliteta.
-              Od idejnog rešenja do finalne realizacije, posvećeni smo svakom
-              detalju vašeg prostora.
+            <p className="text-foreground/70 dark:text-white/50 leading-relaxed mb-10">
+              {t("description2")}
             </p>
 
             {/* Counters */}
             <div className="grid grid-cols-3 gap-6">
               {[
-                { target: 10, suffix: "+", label: "Godina Iskustva" },
-                { target: 500, suffix: "+", label: "Projekata" },
-                { target: 50, suffix: "+", label: "Partnera" },
+                { target: 10, suffix: "+", label: t("stats.experience") },
+                { target: 500, suffix: "+", label: t("stats.projects") },
+                { target: 50, suffix: "+", label: t("stats.partners") },
               ].map((item) => (
                 <div key={item.label} className="flex flex-col">
                   <AnimatedCounter target={item.target} suffix={item.suffix} />
-                  <span className="text-white/40 text-sm mt-2">
+                  <span className="text-foreground/60 dark:text-white/40 text-sm mt-2">
                     {item.label}
                   </span>
                 </div>
@@ -137,29 +132,28 @@ export default function AboutSection() {
             <div className="relative rounded-2xl overflow-hidden group">
               <img
                 src={TEAM_IMG}
-                alt="EnterijerStil tim"
+                alt={t("teamAlt")}
                 className="w-full h-[500px] object-cover transition-transform duration-700 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/60 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
               {/* Floating card */}
               <div className="absolute bottom-6 left-6 right-6 bg-white/10 backdrop-blur-xl rounded-xl p-5 border border-white/10">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#C8A45C] to-[#8B6F3A] flex items-center justify-center text-white font-bold text-lg">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[var(--brand)] to-[var(--brand-strong)] flex items-center justify-center text-white font-bold text-lg">
                     ES
                   </div>
                   <div>
                     <p className="text-white font-semibold">
-                      Dejan Timotijević
+                      {t("directorName")}
                     </p>
-                    <p className="text-white/50 text-sm">Direktor</p>
+                    <p className="text-white/50 text-sm">{t("directorRole")}</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Decorative border */}
-            <div className="absolute -top-4 -right-4 w-full h-full rounded-2xl border border-[#C8A45C]/20 -z-10" />
+            <div className="absolute -top-4 -right-4 w-full h-full rounded-2xl border border-[var(--brand)]/30 -z-10" />
           </div>
         </div>
       </div>

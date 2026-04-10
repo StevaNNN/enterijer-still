@@ -1,5 +1,155 @@
 {
+  "seo": {
+    "title": "EnterijerStil Kragujevac | Enter a Better Space",
+    "description": "EnterijerStil designs, renovates and equips residential and commercial interiors in Kragujevac. Enter a better space with custom interior solutions.",
+    "keywords": "enterijer stil, interior design kragujevac, interior renovation, bathroom design, kitchen design, commercial interior, Serbia",
+    "ogImageAlt": "Modern interior by EnterijerStil"
+  },
+  "navbar": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "gallery": "Gallery",
+    "contact": "Contact",
+    "cta": "Contact Us",
+    "toggleMenu": "Toggle menu",
+    "theme": "Theme",
+    "lightMode": "Light",
+    "darkMode": "Dark"
+  },
   "hero": {
-    "title": "Hero section"
+    "titleLine1": "Enter a",
+    "titleLine2": "better space",
+    "description": "We create inspiring interiors. More than a decade of experience in design, renovation and furnishing with high standards.",
+    "ctaServices": "Our Services",
+    "ctaGallery": "View Gallery",
+    "scroll": "Scroll",
+    "stats": {
+      "experience": "Years of Experience",
+      "projects": "Completed Projects",
+      "satisfaction": "Client Satisfaction"
+    }
+  },
+  "about": {
+    "eyebrow": "About Us",
+    "titleLine1": "We create spaces",
+    "titleLine2": "that inspire",
+    "description1": "EnterijerStil is a company based in Kragujevac, specialized in interior design, renovation and furnishing for residential and business spaces.",
+    "description2": "Our approach combines modern design trends with functional solutions and high-quality materials, from concept to final delivery.",
+    "teamAlt": "EnterijerStil team",
+    "directorName": "Dejan Timotijevic",
+    "directorRole": "Director",
+    "stats": {
+      "experience": "Years of Experience",
+      "projects": "Projects",
+      "partners": "Partners"
+    }
+  },
+  "services": {
+    "eyebrow": "Our Services",
+    "titleLine1": "Services",
+    "titleLine2": "we provide",
+    "items": {
+      "item1": {
+        "title": "Interior Design",
+        "description": "Complete conceptual and technical interior design for residential and business spaces, including 3D visualization."
+      },
+      "item2": {
+        "title": "Renovation",
+        "description": "Complete reconstruction and adaptation of spaces, from demolition to finishing works."
+      },
+      "item3": {
+        "title": "Commercial Spaces",
+        "description": "Design and furnishing of offices, restaurants, hotels and other commercial facilities."
+      },
+      "item4": {
+        "title": "Bathrooms & Wellness",
+        "description": "Premium bathroom and spa-zone solutions with modern design and carefully selected materials."
+      }
+    }
+  },
+  "gallery": {
+    "eyebrow": "Gallery",
+    "titleLine1": "Our",
+    "titleLine2": "projects",
+    "filters": {
+      "all": "All",
+      "kitchens": "Kitchens",
+      "bedrooms": "Bedrooms",
+      "bathrooms": "Bathrooms",
+      "livingRooms": "Living Rooms",
+      "commercial": "Commercial"
+    },
+    "items": {
+      "item1": { "title": "Modern Kitchen" },
+      "item2": { "title": "Luxury Bedroom" },
+      "item3": { "title": "Spa Bathroom" },
+      "item4": { "title": "Living Room" },
+      "item5": { "title": "Hotel Lobby" },
+      "item6": { "title": "Business Space" }
+    }
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "titleLine1": "Feel free to",
+    "titleLine2": "reach out",
+    "mapTitle": "EnterijerStil location",
+    "form": {
+      "nameLabel": "Your Name *",
+      "namePlaceholder": "Full name",
+      "emailLabel": "Your Email *",
+      "emailPlaceholder": "email@example.com",
+      "subjectLabel": "Subject",
+      "subjectPlaceholder": "Message topic",
+      "messageLabel": "Message",
+      "messagePlaceholder": "Describe your project or question...",
+      "submit": "Send Message",
+      "submitting": "Sending...",
+      "validation": {
+        "nameRequired": "Please enter your name.",
+        "emailRequired": "Please enter your email.",
+        "emailInvalid": "Please enter a valid email address.",
+        "messageRequired": "Please enter your message."
+      },
+      "toasts": {
+        "success": "Message sent successfully.",
+        "error": "Could not send message. Please try again."
+      }
+    },
+    "info": {
+      "phoneTitle": "Phone",
+      "emailTitle": "Email",
+      "addressTitle": "Address"
+    }
+  },
+  "footer": {
+    "description": "Enter a better space with EnterijerStil. Interior design, renovation and furnishing according to the highest standards.",
+    "navigationTitle": "Navigation",
+    "contactTitle": "Contact Information",
+    "social": {
+      "facebook": "Facebook",
+      "instagram": "Instagram"
+    },
+    "address": {
+      "line1": "Milovana Vidakovica 4",
+      "line2": "34000 Kragujevac, Serbia"
+    },
+    "maps": {
+      "google": "Google Maps",
+      "apple": "Apple Maps"
+    },
+    "phones": {
+      "primary": "064/249-04-58",
+      "secondary": "065/88-97-203"
+    },
+    "email": "enterijerstil@gmail.com",
+    "links": {
+      "home": "Home",
+      "about": "About",
+      "services": "Services",
+      "gallery": "Gallery",
+      "contact": "Contact"
+    },
+    "copyright": "© {year} EnterijerStil Kragujevac. All rights reserved."
   }
 }

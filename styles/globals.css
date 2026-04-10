@@ -81,6 +81,12 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --brand: #CA4C15;
+  --brand-strong: #8b6f3a;
+  --surface: #ffffff;
+  --surface-2: #f8f8f8;
+  --surface-inverse: #202526;
+  --text-on-inverse: #ffffff;
 }
 
 .dark {
@@ -115,6 +121,12 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  --brand: #d4b76a;
+  --brand-strong: #c8a45c;
+  --surface: #0a0a0a;
+  --surface-2: #0f0f0f;
+  --surface-inverse: #0a0a0a;
+  --text-on-inverse: #ffffff;
 }
 
 @layer base {

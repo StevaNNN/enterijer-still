@@ -6,5 +6,14 @@ import {
 } from "next-themes";
 
 export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
-  return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
+  const scriptProps =
+    typeof window === "undefined"
+      ? undefined
+      : ({ type: "application/json" } as const);
+
+  return (
+    <NextThemesProvider scriptProps={scriptProps} {...props}>
+      {children}
+    </NextThemesProvider>
+  );
 }

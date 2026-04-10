@@ -2,9 +2,10 @@
 import type { Metadata } from "next";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
+import { getMessages, getTranslations } from "next-intl/server";
 import { LOCALES, resolveLocale } from "@/src/i18n/locale";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 export function generateStaticParams() {
   return LOCALES.map((locale) => ({ locale }));
@@ -15,35 +16,34 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
-  const siteUrl = "";
-
-  const titles = {
-    sr: "Sajt",
-    en: "Site",
-  };
-
-  const descriptions = {
-    sr: "Kreiramo savremene web i mobilne aplikacije fokusirane na performanse, pristupačnost i korisničko iskustvo. IT Konsalting, Web Razvoj, A11y Auditi.",
-    en: "We create modern web and mobile applications focused on performance, accessibility, and user experience. IT Consulting, Web Development, A11y Audits.",
-  };
-
-  const title = titles[locale as keyof typeof titles] || titles.en;
-  const description =
-    descriptions[locale as keyof typeof descriptions] || descriptions.en;
+  const { locale: localeParam } = await params;
+  const locale = resolveLocale(localeParam);
+  const t = await getTranslations({ locale, namespace: "seo" });
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.enterijerstil.rs";
+  const title = t("title");
+  const description = t("description");
 
   return {
+    metadataBase: new URL(siteUrl),
     title,
     description,
-    keywords: [],
-    authors: [{ name: "" }],
-    creator: "",
-    publisher: "",
+    keywords: t("keywords").split(",").map((item) => item.trim()),
+    applicationName: "EnterijerStil",
+    authors: [{ name: "EnterijerStil" }],
+    creator: "EnterijerStil",
+    publisher: "EnterijerStil",
+    alternates: {
+      canonical: `/${locale}`,
+      languages: {
+        en: "/en",
+        sr: "/sr",
+      },
+    },
     openGraph: {
       type: "website",
-      locale: locale,
+      locale,
       url: `${siteUrl}/${locale}`,
-      siteName: "",
+      siteName: "EnterijerStil",
       title,
       description,
       images: [
@@ -51,7 +51,7 @@ export async function generateMetadata({
           url: `${siteUrl}/og-image.png`,
           width: 1200,
           height: 630,
-          alt: "",
+          alt: t("ogImageAlt"),
         },
       ],
     },
@@ -73,8 +73,9 @@ export async function generateMetadata({
       },
     },
     verification: {
-      google: "your-google-verification-code",
+      google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
     },
+    category: "Interior Design",
   };
 }
 
@@ -87,17 +88,20 @@ export default async function LocaleLayout({
 }) {
   const { locale: localeParam } = await params;
   const locale = resolveLocale(localeParam);
-  const messages = await getMessages();
+  const messages = await getMessages({ locale });
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
       <ThemeProvider
         attribute="class"
-        defaultTheme="dark"
+        defaultTheme="light"
         enableSystem={false}
         disableTransitionOnChange={false}
       >
-        <TooltipProvider>{children}</TooltipProvider>
+        <TooltipProvider>
+          {children}
+          <Toaster />
+        </TooltipProvider>
       </ThemeProvider>
     </NextIntlClientProvider>
   );

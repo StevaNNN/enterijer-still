@@ -1,77 +1,105 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
+import { toast } from "sonner";
 
 export default function ContactSection() {
-  const [visible, setVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
+  const t = useTranslations("contact");
+  const locale = useLocale();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     subject: "",
     message: "",
   });
-  const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setVisible(true);
-      },
-      { threshold: 0.1 },
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
+  const validateForm = () => {
+    if (!formData.name.trim()) {
+      toast.error(t("form.validation.nameRequired"));
+      return false;
+    }
+    if (!formData.email.trim()) {
+      toast.error(t("form.validation.emailRequired"));
+      return false;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
+      toast.error(t("form.validation.emailInvalid"));
+      return false;
+    }
+    if (!formData.message.trim()) {
+      toast.error(t("form.validation.messageRequired"));
+      return false;
+    }
+    return true;
+  };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000);
-    setFormData({ name: "", email: "", subject: "", message: "" });
+
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...formData,
+          locale,
+        }),
+      });
+
+      const result = (await response.json()) as { success: boolean; error?: string };
+
+      if (!response.ok || !result.success) {
+        toast.error(result.error || t("form.toasts.error"));
+        return;
+      }
+
+      setFormData({ name: "", email: "", subject: "", message: "" });
+      toast.success(t("form.toasts.success"));
+    } catch {
+      toast.error(t("form.toasts.error"));
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <section
       id="contact"
-      ref={sectionRef}
-      className="relative py-24 md:py-32 bg-[#0A0A0A] w-full"
+      className="relative py-24 md:py-32 bg-background w-full"
     >
-      {/* Background glow */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[#C8A45C]/5 rounded-full blur-[200px]" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[var(--brand)]/10 rounded-full blur-[200px]" />
 
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
-        <div
-          className={`mb-16 transition-all duration-700 ${
-            visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-          }`}
-        >
+        <div className="mb-16">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-[2px] bg-[#C8A45C]" />
-            <span className="text-[#C8A45C] text-sm tracking-[0.2em] uppercase font-medium">
-              Kontakt
+            <div className="w-8 h-[2px] bg-[var(--brand)]" />
+            <span className="text-[var(--brand)] text-sm tracking-[0.2em] uppercase font-medium">
+              {t("eyebrow")}
             </span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-white leading-tight">
-            Javite nam se
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground dark:text-white leading-tight">
+            {t("titleLine1")}
             <br />
-            <span className="text-white/40">slobodno</span>
+            <span className="text-foreground/60 dark:text-white/40">{t("titleLine2")}</span>
           </h2>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-16">
           {/* Contact Form */}
-          <div
-            className={`transition-all duration-700 delay-200 ${
-              visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
-          >
+          <div>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid sm:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-white/50 text-sm mb-2 font-medium">
-                    Vaše Ime *
+                  <label className="block text-foreground/70 dark:text-white/50 text-sm mb-2 font-medium">
+                    {t("form.nameLabel")}
                   </label>
                   <input
                     type="text"
@@ -80,13 +108,13 @@ export default function ContactSection() {
                     onChange={(e) =>
                       setFormData({ ...formData, name: e.target.value })
                     }
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/30 focus:outline-none focus:border-[#C8A45C]/50 focus:bg-white/[0.07] transition-all duration-300"
-                    placeholder="Ime i prezime"
+                    className="w-full bg-card border border-border rounded-xl px-4 py-3.5 text-foreground placeholder-muted-foreground/80 focus:outline-none focus:border-[var(--brand)]/60 transition-all duration-300"
+                    placeholder={t("form.namePlaceholder")}
                   />
                 </div>
                 <div>
-                  <label className="block text-white/50 text-sm mb-2 font-medium">
-                    Vaš Email *
+                  <label className="block text-foreground/70 dark:text-white/50 text-sm mb-2 font-medium">
+                    {t("form.emailLabel")}
                   </label>
                   <input
                     type="email"
@@ -95,15 +123,15 @@ export default function ContactSection() {
                     onChange={(e) =>
                       setFormData({ ...formData, email: e.target.value })
                     }
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/30 focus:outline-none focus:border-[#C8A45C]/50 focus:bg-white/[0.07] transition-all duration-300"
-                    placeholder="email@primer.com"
+                    className="w-full bg-card border border-border rounded-xl px-4 py-3.5 text-foreground placeholder-muted-foreground/80 focus:outline-none focus:border-[var(--brand)]/60 transition-all duration-300"
+                    placeholder={t("form.emailPlaceholder")}
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-white/50 text-sm mb-2 font-medium">
-                  Naslov
+                <label className="block text-foreground/70 dark:text-white/50 text-sm mb-2 font-medium">
+                  {t("form.subjectLabel")}
                 </label>
                 <input
                   type="text"
@@ -111,14 +139,14 @@ export default function ContactSection() {
                   onChange={(e) =>
                     setFormData({ ...formData, subject: e.target.value })
                   }
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/30 focus:outline-none focus:border-[#C8A45C]/50 focus:bg-white/[0.07] transition-all duration-300"
-                  placeholder="Tema poruke"
+                  className="w-full bg-card border border-border rounded-xl px-4 py-3.5 text-foreground placeholder-muted-foreground/80 focus:outline-none focus:border-[var(--brand)]/60 transition-all duration-300"
+                  placeholder={t("form.subjectPlaceholder")}
                 />
               </div>
 
               <div>
-                <label className="block text-white/50 text-sm mb-2 font-medium">
-                  Poruka
+                <label className="block text-foreground/70 dark:text-white/50 text-sm mb-2 font-medium">
+                  {t("form.messageLabel")}
                 </label>
                 <textarea
                   rows={5}
@@ -126,31 +154,28 @@ export default function ContactSection() {
                   onChange={(e) =>
                     setFormData({ ...formData, message: e.target.value })
                   }
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/30 focus:outline-none focus:border-[#C8A45C]/50 focus:bg-white/[0.07] transition-all duration-300 resize-none"
-                  placeholder="Opišite vaš projekat ili pitanje..."
+                  className="w-full bg-card border border-border rounded-xl px-4 py-3.5 text-foreground placeholder-muted-foreground/80 focus:outline-none focus:border-[var(--brand)]/60 transition-all duration-300 resize-none"
+                  placeholder={t("form.messagePlaceholder")}
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full sm:w-auto px-10 py-4 text-sm font-semibold text-[#0A0A0A] bg-gradient-to-r from-[#C8A45C] to-[#D4B76A] rounded-full hover:shadow-xl hover:shadow-[#C8A45C]/30 transition-all duration-300 hover:scale-105"
+                disabled={isSubmitting}
+                className="w-full sm:w-auto px-10 py-4 text-sm font-semibold text-[var(--text-on-inverse)] bg-gradient-to-r from-[var(--brand)] to-[var(--brand-strong)] rounded-full hover:shadow-xl hover:shadow-[var(--brand)]/30 transition-all duration-300 hover:scale-105"
               >
-                {submitted ? "✓ Poruka Poslata!" : "Pošaljite Poruku"}
+                {isSubmitting ? t("form.submitting") : t("form.submit")}
               </button>
             </form>
           </div>
 
           {/* Contact Info */}
-          <div
-            className={`transition-all duration-700 delay-400 ${
-              visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
-          >
+          <div>
             <div className="space-y-6">
               {/* Phone */}
-              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:border-[#C8A45C]/20 transition-all duration-300 group">
+              <div className="bg-card backdrop-blur-sm border border-border rounded-2xl p-6 hover:border-[var(--brand)]/30 transition-all duration-300 group">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-[#C8A45C]/10 flex items-center justify-center text-[#C8A45C] flex-shrink-0 group-hover:bg-[#C8A45C]/20 transition-colors">
+                  <div className="w-12 h-12 rounded-xl bg-[var(--brand)]/10 flex items-center justify-center text-[var(--brand)] flex-shrink-0 group-hover:bg-[var(--brand)]/20 transition-colors">
                     <svg
                       className="w-5 h-5"
                       fill="none"
@@ -166,14 +191,14 @@ export default function ContactSection() {
                     </svg>
                   </div>
                   <div>
-                    <h4 className="text-white font-semibold mb-2">Telefon</h4>
-                    <p className="text-white/50 text-sm leading-relaxed">
+                    <h4 className="text-foreground dark:text-white font-semibold mb-2">{t("info.phoneTitle")}</h4>
+                    <p className="text-foreground/70 dark:text-white/50 text-sm leading-relaxed">
                       064/249-04-58 — Dejan Timotijević, direktor
                     </p>
-                    <p className="text-white/50 text-sm leading-relaxed">
+                    <p className="text-foreground/70 dark:text-white/50 text-sm leading-relaxed">
                       065/88-97-203 — Goran Sentić, zamenik direktora
                     </p>
-                    <p className="text-white/50 text-sm leading-relaxed">
+                    <p className="text-foreground/70 dark:text-white/50 text-sm leading-relaxed">
                       065/88-97-201 · 034/355-198 — Informacije
                     </p>
                   </div>
@@ -181,9 +206,9 @@ export default function ContactSection() {
               </div>
 
               {/* Email */}
-              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:border-[#C8A45C]/20 transition-all duration-300 group">
+              <div className="bg-card backdrop-blur-sm border border-border rounded-2xl p-6 hover:border-[var(--brand)]/30 transition-all duration-300 group">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-[#C8A45C]/10 flex items-center justify-center text-[#C8A45C] flex-shrink-0 group-hover:bg-[#C8A45C]/20 transition-colors">
+                  <div className="w-12 h-12 rounded-xl bg-[var(--brand)]/10 flex items-center justify-center text-[var(--brand)] flex-shrink-0 group-hover:bg-[var(--brand)]/20 transition-colors">
                     <svg
                       className="w-5 h-5"
                       fill="none"
@@ -199,10 +224,10 @@ export default function ContactSection() {
                     </svg>
                   </div>
                   <div>
-                    <h4 className="text-white font-semibold mb-2">Email</h4>
+                    <h4 className="text-foreground dark:text-white font-semibold mb-2">{t("info.emailTitle")}</h4>
                     <a
                       href="mailto:enterijerstil@gmail.com"
-                      className="text-[#C8A45C] hover:text-[#D4B76A] transition-colors text-sm"
+                      className="text-[var(--brand)] hover:text-[var(--brand-strong)] transition-colors text-sm"
                     >
                       enterijerstil@gmail.com
                     </a>
@@ -211,9 +236,9 @@ export default function ContactSection() {
               </div>
 
               {/* Address */}
-              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:border-[#C8A45C]/20 transition-all duration-300 group">
+              <div className="bg-card backdrop-blur-sm border border-border rounded-2xl p-6 hover:border-[var(--brand)]/30 transition-all duration-300 group">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-[#C8A45C]/10 flex items-center justify-center text-[#C8A45C] flex-shrink-0 group-hover:bg-[#C8A45C]/20 transition-colors">
+                  <div className="w-12 h-12 rounded-xl bg-[var(--brand)]/10 flex items-center justify-center text-[var(--brand)] flex-shrink-0 group-hover:bg-[var(--brand)]/20 transition-colors">
                     <svg
                       className="w-5 h-5"
                       fill="none"
@@ -234,8 +259,8 @@ export default function ContactSection() {
                     </svg>
                   </div>
                   <div>
-                    <h4 className="text-white font-semibold mb-2">Adresa</h4>
-                    <p className="text-white/50 text-sm leading-relaxed">
+                    <h4 className="text-foreground dark:text-white font-semibold mb-2">{t("info.addressTitle")}</h4>
+                    <p className="text-foreground/70 dark:text-white/50 text-sm leading-relaxed">
                       Milovana Vidakovića 4
                       <br />
                       34000 Kragujevac, Srbija
@@ -245,17 +270,14 @@ export default function ContactSection() {
               </div>
 
               {/* Map placeholder */}
-              <div className="rounded-2xl overflow-hidden border border-white/10 h-[200px]">
+              <div className="rounded-2xl overflow-hidden border border-border h-[200px]">
                 <iframe
-                  title="EnterijerStil lokacija"
+                  title={t("mapTitle")}
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2872.5!2d20.9167!3d44.0128!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDTCsDAwJzQ2LjEiTiAyMMKwNTUnMDAuMSJF!5e0!3m2!1sen!2srs!4v1!5m2!1sen!2srs"
                   width="100%"
                   height="100%"
-                  style={{
-                    border: 0,
-                    filter:
-                      "invert(90%) hue-rotate(180deg) brightness(0.8) contrast(1.2)",
-                  }}
+                  className="h-full w-full dark:invert dark:hue-rotate-180 dark:brightness-90 dark:contrast-125"
+                  style={{ border: 0 }}
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"

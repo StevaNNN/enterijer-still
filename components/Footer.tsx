@@ -1,7 +1,15 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 export default function Footer() {
+  const t = useTranslations("footer");
   const currentYear = new Date().getFullYear();
+  const addressQuery = encodeURIComponent(
+    "Milovana Vidakovića 4, 34000 Kragujevac, Srbija",
+  );
+  const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${addressQuery}`;
+  const appleMapsUrl = `https://maps.apple.com/?q=${addressQuery}`;
 
   const handleNavClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
@@ -13,35 +21,34 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative bg-[#080808] border-t border-white/5 w-full">
+    <footer className="relative bg-background dark:bg-[var(--surface-inverse)] border-t border-border w-full">
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid md:grid-cols-3 gap-12">
           {/* Brand */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#C8A45C] to-[#8B6F3A] flex items-center justify-center text-white font-bold text-lg">
+              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[var(--brand)] to-[var(--brand-strong)] flex items-center justify-center text-white font-bold text-lg">
                 E
               </div>
               <div className="flex flex-col">
-                <span className="text-white font-bold text-lg tracking-wide leading-tight">
+                <span className="text-foreground dark:text-white font-bold text-lg tracking-wide leading-tight">
                   EnterijerStil
                 </span>
-                <span className="text-[#C8A45C] text-[10px] tracking-[0.2em] uppercase font-medium">
+                <span className="text-[var(--brand)] text-[10px] tracking-[0.2em] uppercase font-medium">
                   Kragujevac
                 </span>
               </div>
             </div>
-            <p className="text-white/40 text-sm leading-relaxed max-w-xs">
-              Uđite u lepši prostor sa EnterijerStilom. Dizajn enterijera,
-              renoviranje i opremanje prostora po najvišim standardima.
+            <p className="text-foreground/70 dark:text-white/60 text-sm leading-relaxed max-w-xs">
+              {t("description")}
             </p>
-            {/* Social */}
             <div className="flex gap-3 mt-6">
               <a
-                href="https://www.facebook.com/pages/Enterijer-Stil-Kragujevac/939918732709420"
+                href="https://www.facebook.com/enterijerstilkg/?locale=sr_RS"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/50 hover:text-[#C8A45C] hover:border-[#C8A45C]/30 transition-all duration-300"
+                className="w-10 h-10 rounded-full bg-foreground/5 dark:bg-white/5 border border-border flex items-center justify-center text-foreground/60 dark:text-white/60 hover:text-[var(--brand)] hover:border-[var(--brand)]/30 transition-all duration-300"
+                aria-label={t("social.facebook")}
               >
                 <svg
                   className="w-4 h-4"
@@ -52,44 +59,40 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="mailto:enterijerstil@gmail.com"
-                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/50 hover:text-[#C8A45C] hover:border-[#C8A45C]/30 transition-all duration-300"
+                href="https://www.instagram.com/enterijerstilkg/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-foreground/5 dark:bg-white/5 border border-border flex items-center justify-center text-foreground/60 dark:text-white/60 hover:text-[var(--brand)] hover:border-[var(--brand)]/30 transition-all duration-300"
+                aria-label={t("social.instagram")}
               >
                 <svg
                   className="w-4 h-4"
-                  fill="none"
+                  fill="currentColor"
                   viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={1.5}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
-                  />
+                  <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm8.5 1.8h-8.5A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5a3.95 3.95 0 0 0-3.95-3.95ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.8A3.2 3.2 0 1 0 12 15.2 3.2 3.2 0 0 0 12 8.8Zm5.2-2.35a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4Z" />
                 </svg>
               </a>
             </div>
           </div>
 
-          {/* Quick Links */}
           <div>
-            <h4 className="text-white font-semibold mb-6 text-sm tracking-wide uppercase">
-              Navigacija
+            <h4 className="text-foreground dark:text-white font-semibold mb-6 text-sm tracking-wide uppercase">
+              {t("navigationTitle")}
             </h4>
             <div className="flex flex-col gap-3">
               {[
-                { label: "Početna", href: "#hero" },
-                { label: "O Nama", href: "#about" },
-                { label: "Naša Delatnost", href: "#services" },
-                { label: "Galerija", href: "#gallery" },
-                { label: "Kontakt", href: "#contact" },
+                { label: t("links.home"), href: "#hero" },
+                { label: t("links.about"), href: "#about" },
+                { label: t("links.services"), href: "#services" },
+                { label: t("links.gallery"), href: "#gallery" },
+                { label: t("links.contact"), href: "#contact" },
               ].map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
-                  className="text-white/40 hover:text-[#C8A45C] transition-colors duration-300 text-sm"
+                  className="text-foreground/70 dark:text-white/60 hover:text-[var(--brand)] transition-colors duration-300 text-sm"
                 >
                   {link.label}
                 </a>
@@ -97,32 +100,65 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Contact Info */}
           <div>
-            <h4 className="text-white font-semibold mb-6 text-sm tracking-wide uppercase">
-              Kontakt Informacije
+            <h4 className="text-foreground dark:text-white font-semibold mb-6 text-sm tracking-wide uppercase">
+              {t("contactTitle")}
             </h4>
-            <div className="flex flex-col gap-3 text-white/40 text-sm">
-              <p>Milovana Vidakovića 4</p>
-              <p>34000 Kragujevac, Srbija</p>
-              <p className="mt-2">064/249-04-58</p>
-              <p>065/88-97-203</p>
+            <div className="flex flex-col gap-3 text-foreground/70 dark:text-white/60 text-sm">
+              <a
+                href={googleMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-[var(--brand)] transition-colors"
+              >
+                {t("address.line1")}
+              </a>
+              <a
+                href={googleMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-[var(--brand)] transition-colors"
+              >
+                {t("address.line2")}
+              </a>
+              <div className="mt-2 flex gap-3 text-xs">
+                <a
+                  href={googleMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[var(--brand)] hover:text-[var(--brand-strong)] transition-colors"
+                >
+                  {t("maps.google")}
+                </a>
+                <a
+                  href={appleMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[var(--brand)] hover:text-[var(--brand-strong)] transition-colors"
+                >
+                  {t("maps.apple")}
+                </a>
+              </div>
+              <a href="tel:+381642490458" className="hover:text-[var(--brand)] transition-colors">
+                {t("phones.primary")}
+              </a>
+              <a href="tel:+381658897203" className="hover:text-[var(--brand)] transition-colors">
+                {t("phones.secondary")}
+              </a>
               <a
                 href="mailto:enterijerstil@gmail.com"
-                className="text-[#C8A45C] hover:text-[#D4B76A] transition-colors"
+                className="text-[var(--brand)] hover:text-[var(--brand-strong)] transition-colors"
               >
-                enterijerstil@gmail.com
+                {t("email")}
               </a>
             </div>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="mt-16 pt-8 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-white/30 text-sm">
-            © {currentYear} EnterijerStil Kragujevac. Sva prava zadržana.
+        <div className="mt-16 pt-8 border-t border-border flex flex-col sm:flex-row justify-between items-center gap-4">
+          <p className="text-foreground/60 dark:text-white/50 text-sm">
+            {t("copyright", { year: currentYear })}
           </p>
-          <p className="text-white/20 text-xs">Redesigned with ♥ in 2026</p>
         </div>
       </div>
     </footer>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 
 const IMAGES = [
   {
@@ -35,18 +36,10 @@ const IMAGES = [
   },
 ];
 
-const categories = [
-  "Sve",
-  "Kuhinje",
-  "Spavaće Sobe",
-  "Kupatila",
-  "Dnevne Sobe",
-  "Komercijalni",
-];
-
 export default function GallerySection() {
+  const t = useTranslations("gallery");
   const [visible, setVisible] = useState(false);
-  const [activeFilter, setActiveFilter] = useState("Sve");
+  const [activeFilter, setActiveFilter] = useState("all");
   const [lightbox, setLightbox] = useState<number | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -61,19 +54,40 @@ export default function GallerySection() {
     return () => observer.disconnect();
   }, []);
 
+  const categories = [
+    { key: "all", label: t("filters.all") },
+    { key: "kitchens", label: t("filters.kitchens") },
+    { key: "bedrooms", label: t("filters.bedrooms") },
+    { key: "bathrooms", label: t("filters.bathrooms") },
+    { key: "livingRooms", label: t("filters.livingRooms") },
+    { key: "commercial", label: t("filters.commercial") },
+  ];
+  const images = IMAGES.map((img, i) => ({
+    ...img,
+    title: t(`items.item${i + 1}.title`),
+    category:
+      i === 0
+        ? "kitchens"
+        : i === 1
+          ? "bedrooms"
+          : i === 2
+            ? "bathrooms"
+            : i === 3
+              ? "livingRooms"
+              : "commercial",
+  }));
   const filtered =
-    activeFilter === "Sve"
-      ? IMAGES
-      : IMAGES.filter((img) => img.category === activeFilter);
+    activeFilter === "all"
+      ? images
+      : images.filter((img) => img.category === activeFilter);
 
   return (
     <section
       id="gallery"
       ref={sectionRef}
-      className="relative py-24 md:py-32 bg-[#0F0F0F] w-full"
+      className="relative py-24 md:py-32 bg-[var(--surface-2)] dark:bg-[var(--surface-2)] w-full"
     >
-      {/* Background accent */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-[#C8A45C]/5 rounded-full blur-[150px]" />
+      <div className="absolute top-0 right-0 w-96 h-96 bg-[var(--brand)]/10 rounded-full blur-[150px]" />
 
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
@@ -83,15 +97,15 @@ export default function GallerySection() {
           }`}
         >
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-[2px] bg-[#C8A45C]" />
-            <span className="text-[#C8A45C] text-sm tracking-[0.2em] uppercase font-medium">
-              Galerija
+            <div className="w-8 h-[2px] bg-[var(--brand)]" />
+            <span className="text-[var(--brand)] text-sm tracking-[0.2em] uppercase font-medium">
+              {t("eyebrow")}
             </span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-white leading-tight">
-            Naši
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground leading-tight">
+            {t("titleLine1")}
             <br />
-            <span className="text-white/40">projekti</span>
+            <span className="text-foreground/50">{t("titleLine2")}</span>
           </h2>
         </div>
 
@@ -103,15 +117,15 @@ export default function GallerySection() {
         >
           {categories.map((cat) => (
             <button
-              key={cat}
-              onClick={() => setActiveFilter(cat)}
+              key={cat.key}
+              onClick={() => setActiveFilter(cat.key)}
               className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                activeFilter === cat
-                  ? "bg-[#C8A45C] text-[#0A0A0A]"
-                  : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10"
+                activeFilter === cat.key
+                  ? "bg-[var(--brand)] text-[var(--text-on-inverse)]"
+                  : "bg-foreground/5 text-foreground/70 hover:bg-foreground/10 hover:text-foreground border border-border"
               }`}
             >
-              {cat}
+              {cat.label}
             </button>
           ))}
         </div>
@@ -141,10 +155,10 @@ export default function GallerySection() {
                       : "h-[350px]"
                 }`}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <div className="absolute bottom-0 left-0 right-0 p-5 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
                 <p className="text-white font-semibold text-lg">{img.title}</p>
-                <p className="text-[#C8A45C] text-sm">{img.category}</p>
+                <p className="text-[var(--brand)] text-sm">{t(`filters.${img.category}`)}</p>
               </div>
               {/* Zoom icon */}
               <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 border border-white/20">
@@ -167,7 +181,6 @@ export default function GallerySection() {
         </div>
       </div>
 
-      {/* Lightbox */}
       {lightbox !== null && (
         <div
           className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex items-center justify-center p-4"
@@ -201,8 +214,8 @@ export default function GallerySection() {
             <p className="text-white font-semibold text-xl">
               {filtered[lightbox]?.title}
             </p>
-            <p className="text-[#C8A45C] text-sm mt-1">
-              {filtered[lightbox]?.category}
+            <p className="text-[var(--brand)] text-sm mt-1">
+              {filtered[lightbox] ? t(`filters.${filtered[lightbox].category}`) : ""}
             </p>
           </div>
         </div>
