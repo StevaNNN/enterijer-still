@@ -19,7 +19,8 @@ export default async function Footer({ locale }: FooterProps) {
     { label: t("links.home"), href: "#hero" },
     { label: t("links.about"), href: "#about" },
     { label: t("links.services"), href: "#services" },
-    { label: t("links.gallery"), href: "#gallery" },
+    { label: t("links.gallery"), href: "/gallery" },
+    { label: t("links.products"), href: "/products" },
     { label: t("links.contact"), href: "#contact" },
   ];
 

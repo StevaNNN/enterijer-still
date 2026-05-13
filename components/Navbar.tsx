@@ -24,7 +24,8 @@ export default function Navbar() {
     { label: t("home"), href: "#hero" },
     { label: t("about"), href: "#about" },
     { label: t("services"), href: "#services" },
-    { label: t("gallery"), href: "#gallery" },
+    { label: t("gallery"), href: "/gallery" },
+    { label: t("products"), href: "/products" },
     { label: t("contact"), href: "#contact" },
   ];
 
@@ -35,8 +36,19 @@ export default function Navbar() {
   }, []);
 
   const isHomePage = pathname === `/${locale}`;
+  const resolveNavHref = (href: string) => {
+    if (href.startsWith("/")) return `/${locale}${href}`;
+    if (isHomePage) return href;
+    return `/${locale}${href}`;
+  };
   const isSectionActive = (href: string) =>
-    Boolean(isHomePage && activeHash && activeHash === href);
+    Boolean(isHomePage && href.startsWith("#") && activeHash && activeHash === href);
+  const isNavLinkActive = (href: string) => {
+    if (href.startsWith("/")) {
+      return pathname === `/${locale}${href}`;
+    }
+    return isSectionActive(href);
+  };
   const contactInView = isSectionActive("#contact");
   const toLocalizedHash = (hash: string) => `/${locale}${hash}`;
   const getLocaleHref = (nextLocale: string) => {
@@ -51,7 +63,7 @@ export default function Navbar() {
     href: string,
   ) => {
     setMobileOpen(false);
-    if (isHomePage && href.startsWith("#")) {
+    if (href.startsWith("#") && isHomePage) {
       e.preventDefault();
       smoothScrollTo(href);
     }
@@ -100,11 +112,11 @@ export default function Navbar() {
 
         <div className="hidden md:flex items-center gap-1 lg:gap-2">
           {navLinks.map((link) => {
-            const active = isSectionActive(link.href);
+            const active = isNavLinkActive(link.href);
             return (
               <a
                 key={link.href}
-                href={isHomePage ? link.href : toLocalizedHash(link.href)}
+                href={resolveNavHref(link.href)}
                 onClick={(e) => handleNavClick(e, link.href)}
                 aria-current={active ? "location" : undefined}
                 className={cn(
@@ -201,11 +213,11 @@ export default function Navbar() {
       >
         <div className="px-6 py-4 flex flex-col gap-2">
           {navLinks.map((link) => {
-            const active = isSectionActive(link.href);
+            const active = isNavLinkActive(link.href);
             return (
               <a
                 key={link.href}
-                href={isHomePage ? link.href : toLocalizedHash(link.href)}
+                href={resolveNavHref(link.href)}
                 onClick={(e) => handleNavClick(e, link.href)}
                 aria-current={active ? "location" : undefined}
                 className={cn(

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import Footer from "@/components/Footer";
-import GallerySection from "@/components/GallerySection";
 import Navbar from "@/components/Navbar";
+import ProductsSection from "@/components/ProductsSection";
 import { buildLocalizedRouteMetadata } from "@/lib/locale-route-metadata";
 import { resolveLocale } from "@/src/i18n/locale";
 
@@ -13,14 +13,14 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale: localeParam } = await params;
   const locale = resolveLocale(localeParam);
-  const t = await getTranslations({ locale, namespace: "gallery" });
+  const t = await getTranslations({ locale, namespace: "products" });
   const tSeo = await getTranslations({ locale, namespace: "seo" });
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.enterijerstil.rs";
 
   return buildLocalizedRouteMetadata({
     siteUrl,
     locale,
-    pathnameSegment: "gallery",
+    pathnameSegment: "products",
     title: t("pageTitle"),
     description: t("pageDescription"),
     keywords: t("pageKeywords").split(",").map((item) => item.trim()),
@@ -29,7 +29,7 @@ export async function generateMetadata({
   });
 }
 
-export default async function GalleryPage({
+export default async function ProductsPage({
   params,
 }: {
   params: Promise<{ locale: string }>;
@@ -37,13 +37,13 @@ export default async function GalleryPage({
   const { locale: localeParam } = await params;
   const locale = resolveLocale(localeParam);
   setRequestLocale(locale);
-  const t = await getTranslations({ locale, namespace: "gallery" });
+  const t = await getTranslations({ locale, namespace: "products" });
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.enterijerstil.rs";
-  const pageUrl = `${siteUrl}/${locale}/gallery`;
+  const pageUrl = `${siteUrl}/${locale}/products`;
 
   const webPageSchema = {
     "@context": "https://schema.org",
-    "@type": "CollectionPage",
+    "@type": "WebPage",
     name: t("pageTitle"),
     headline: t("openGraphTitle"),
     description: t("pageDescription"),
@@ -64,7 +64,7 @@ export default async function GalleryPage({
       />
       <Navbar />
       <div className="pt-24">
-        <GallerySection locale={locale} />
+        <ProductsSection locale={locale} />
       </div>
       <Footer locale={locale} />
     </main>

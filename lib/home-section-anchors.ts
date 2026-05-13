@@ -3,7 +3,6 @@ export const HOME_SECTION_HASHES = [
   "#hero",
   "#about",
   "#services",
-  "#gallery",
   "#contact",
 ] as const;
 

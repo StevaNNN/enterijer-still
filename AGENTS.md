@@ -131,14 +131,15 @@ If translations or routing are changed, also manually verify both locales render
 
 ## Routing and Navigation Rules
 - This website is a localized single-page layout under `app/[locale]/page.tsx`.
-- Section IDs and navbar/footer links must stay aligned:
-  - `#hero`, `#about`, `#services`, `#gallery`, `#contact`
+- Section IDs and navbar/footer links must stay aligned for the homepage:
+  - `#hero`, `#about`, `#services`, `#contact`
+- Full-screen gallery lives at `/[locale]/gallery`; the products overview lives at `/[locale]/products`.
 - Reuse `smoothScrollTo` from `lib/smooth-scroll.ts` for in-page navigation.
 - Keep locale references centralized:
   - import `LOCALES` from `src/i18n/locale.ts` instead of hardcoding locale arrays.
 
 ## Photos: Cloudinary only (CDN policy)
-- **All raster photos** used in the marketing site (hero, about, services, gallery, teasers, lightbox) must be **delivered from Cloudinary** (`https://res.cloudinary.com/<cloud>/image/upload/...`). Do not introduce other image CDNs or hotlinked third-party hosts for these assets.
+- **All raster photos** used in the marketing site (hero, about, services, gallery, lightbox) must be **delivered from Cloudinary** (`https://res.cloudinary.com/<cloud>/image/upload/...`). Do not introduce other image CDNs or hotlinked third-party hosts for these assets.
 - Build delivery URLs with `cloudinaryImageUrl()` from `lib/cloudinary-url.ts` and stable `public_id` strings from `lib/cloudinary-assets.ts` and `lib/gallery-data.ts`. Do not hardcode full Cloudinary URLs in components unless there is a strong reason; prefer presets in `CLOUDINARY_IMAGE_PRESETS` so transforms stay consistent.
 - **`next/image` remote patterns:** only `res.cloudinary.com` is allowed for remote photos. Do not add `images.remotePatterns` entries for other image hosts for site photography.
 - **Static files in `public/`** (SVG logo, favicon, icons, non-photography assets) are fine and are not served via Cloudinary unless you intentionally choose to.

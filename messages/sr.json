@@ -15,6 +15,7 @@
     "about": "O Nama",
     "services": "Delatnost",
     "gallery": "Galerija",
+    "products": "Proizvodi",
     "contact": "Kontakt",
     "cta": "Kontaktirajte Nas",
     "toggleMenu": "Otvori navigaciju",
@@ -84,6 +85,8 @@
     "viewAll": "Pogledajte celu galeriju",
     "pageTitle": "Galerija",
     "pageDescription": "Pregledajte projekte enterijera po kategoriji i stilu.",
+    "openGraphTitle": "Galerija | EnterijerStil Kragujevac",
+    "pageKeywords": "galerija enterijera, projekti Kragujevac, kuhinje, kupatila, dnevne sobe, poslovni enterijeri, Srbija",
     "filters": {
       "all": "Sve",
       "kitchens": "Kuhinje",
@@ -94,6 +97,34 @@
     },
     "items": {
       "fallbackTitle": "Projekat {number}"
+    }
+  },
+  "products": {
+    "pageTitle": "Proizvodi",
+    "pageDescription": "Materijali, oprema i proizvodni program koje biramo i isporučujemo za stambene i poslovne enterijere u Kragujevcu.",
+    "openGraphTitle": "Proizvodi i materijali za enterijer | EnterijerStil",
+    "pageKeywords": "proizvodi za enterijer Kragujevac, kuhinje po meri, kupatilska oprema, podne obloge, ugradni nameštaj, rasveta i dekor, EnterijerStil",
+    "eyebrow": "Proizvodi",
+    "titleLine1": "Materijali i",
+    "titleLine2": "oprema kojoj verujemo",
+    "intro": "Spajamo dizajn i proverene proizvode kako bi enterijer bio celovit, dugotrajan i prilagođen vašem prostoru—od kuhinja i kupatila do rasvete i završnih detalja.",
+    "items": {
+      "item1": {
+        "title": "Kuhinje i ugradni elementi",
+        "description": "Kuhinje po meri, elementi, radne ploče i skladištenje usklađeni sa rasporedom, funkcijom i željenim stilom."
+      },
+      "item2": {
+        "title": "Kupatila i wellness",
+        "description": "Sanitarije, armature, pločice i wellness elementi birani radi udobnosti, održavanja i elegantnog izgleda."
+      },
+      "item3": {
+        "title": "Podovi, zidovi i plafoni",
+        "description": "Drvo, keramika, kamen i dekorativne završne obrade koje u skladu sa konceptom obezbeđuju akustiku i trajnost."
+      },
+      "item4": {
+        "title": "Rasveta, kvake i dodaci",
+        "description": "Slojevita rasveta, kvake i dodaci koji upotpunjuju dizajn i čine svakodnevnu upotrebu prijatnijom."
+      }
     }
   },
   "contact": {
@@ -161,6 +192,7 @@
       "about": "O Nama",
       "services": "Delatnost",
       "gallery": "Galerija",
+      "products": "Proizvodi",
       "contact": "Kontakt"
     },
     "copyright": "© {year} EnterijerStil Kragujevac. Sva prava zadržana."

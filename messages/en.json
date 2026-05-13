@@ -15,6 +15,7 @@
     "about": "About",
     "services": "Services",
     "gallery": "Gallery",
+    "products": "Products",
     "contact": "Contact",
     "cta": "Contact Us",
     "toggleMenu": "Toggle menu",
@@ -84,6 +85,8 @@
     "viewAll": "View Full Gallery",
     "pageTitle": "Gallery",
     "pageDescription": "Browse interior projects by category and style.",
+    "openGraphTitle": "Gallery | EnterijerStil Kragujevac",
+    "pageKeywords": "interior design gallery, Kragujevac interiors, kitchen projects, bathroom design, living room ideas, commercial interiors, Serbia",
     "filters": {
       "all": "All",
       "kitchens": "Kitchens",
@@ -94,6 +97,34 @@
     },
     "items": {
       "fallbackTitle": "Project {number}"
+    }
+  },
+  "products": {
+    "pageTitle": "Products",
+    "pageDescription": "Explore the materials, fittings, and product lines we specify and supply for residential and commercial interior projects in Kragujevac.",
+    "openGraphTitle": "Interior products & materials | EnterijerStil",
+    "pageKeywords": "interior products Kragujevac, custom kitchens Serbia, bathroom fittings, flooring and tiles, built-in furniture, lighting and decor, EnterijerStil",
+    "eyebrow": "Products",
+    "titleLine1": "Materials &",
+    "titleLine2": "fittings we trust",
+    "intro": "We combine design expertise with curated products so every project is cohesive, durable, and tailored to your space—from kitchens and bathrooms to lighting and finishing details.",
+    "items": {
+      "item1": {
+        "title": "Kitchens & built-ins",
+        "description": "Custom kitchen systems, cabinetry, countertops, and storage tailored to layout, workflow, and your preferred style."
+      },
+      "item2": {
+        "title": "Bathrooms & wellness",
+        "description": "Sanitary ware, fixtures, tiles, and wellness elements selected for comfort, easy maintenance, and a refined look."
+      },
+      "item3": {
+        "title": "Flooring, walls & ceilings",
+        "description": "Wood, tile, stone, and decorative finishes that balance acoustics, durability, and the overall interior concept."
+      },
+      "item4": {
+        "title": "Lighting, hardware & accessories",
+        "description": "Layered lighting plans plus hardware and accessories that complete the design and elevate everyday use."
+      }
     }
   },
   "contact": {
@@ -161,6 +192,7 @@
       "about": "About",
       "services": "Services",
       "gallery": "Gallery",
+      "products": "Products",
       "contact": "Contact"
     },
     "copyright": "© {year} EnterijerStil Kragujevac. All rights reserved."

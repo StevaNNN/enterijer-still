@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import Link from "next/link";
 import Image from "next/image";
 import { smoothScrollTo } from "@/lib/smooth-scroll";
 import { CLOUDINARY_SITE_IMAGES } from "@/lib/cloudinary-assets";
@@ -11,6 +12,7 @@ const HERO_IMG = cloudinaryImageUrl(CLOUDINARY_SITE_IMAGES.hero, "hero");
 
 export default function HeroSection() {
   const t = useTranslations("hero");
+  const locale = useLocale();
   const [offset, setOffset] = useState(0);
 
   useEffect(() => {
@@ -85,16 +87,12 @@ export default function HeroSection() {
             >
               {t("ctaServices")}
             </a>
-            <a
-              href="#gallery"
-              onClick={(e) => {
-                e.preventDefault();
-                smoothScrollTo("#gallery");
-              }}
+            <Link
+              href={`/${locale}/gallery`}
               className="px-8 py-4 text-sm font-semibold text-foreground dark:text-white border border-foreground/40 dark:border-white/30 bg-white/35 dark:bg-black/25 backdrop-blur-sm rounded-full hover:bg-white/60 dark:hover:bg-white/10 hover:border-foreground/60 dark:hover:border-white/50 transition-all duration-300"
             >
               {t("ctaGallery")}
-            </a>
+            </Link>
           </div>
         </div>
 

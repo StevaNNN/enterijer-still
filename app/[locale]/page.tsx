@@ -1,7 +1,6 @@
 import AboutSection from "@/components/AboutSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
-import GalleryTeaserSection from "@/components/GalleryTeaserSection";
 import HeroSection from "@/components/HeroSection";
 import Navbar from "@/components/Navbar";
 import ServicesSection from "@/components/ServicesSection";
@@ -23,7 +22,6 @@ export default async function Home({
       <HeroSection />
       <AboutSection locale={locale} />
       <ServicesSection locale={locale} />
-      <GalleryTeaserSection locale={locale} />
       <ContactSection />
       <Footer locale={locale} />
     </main>

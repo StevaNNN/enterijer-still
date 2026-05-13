@@ -24,13 +24,22 @@ export default function FooterNavLinksClient({ links }: FooterNavLinksClientProp
   return (
     <div className="flex flex-col gap-3">
       {links.map((link) => {
-        const active = Boolean(isHomePage && activeHash && activeHash === link.href);
+        const resolvedHref = link.href.startsWith("/")
+          ? `/${locale}${link.href}`
+          : isHomePage
+            ? link.href
+            : `/${locale}${link.href}`;
+
+        const active = link.href.startsWith("#")
+          ? Boolean(isHomePage && activeHash && activeHash === link.href)
+          : pathname === `/${locale}${link.href}`;
+
         return (
           <a
             key={link.href}
-            href={isHomePage ? link.href : `/${locale}${link.href}`}
+            href={resolvedHref}
             onClick={(event) => {
-              if (isHomePage) {
+              if (link.href.startsWith("#") && isHomePage) {
                 event.preventDefault();
                 smoothScrollTo(link.href);
               }
