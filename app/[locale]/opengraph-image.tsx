@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { getTranslations } from "next-intl/server";
+import { getOgSeoCopy } from "@/lib/og-seo-copy";
 import { LOCALES, resolveLocale } from "@/src/i18n/locale";
 
 /** Required when the app uses `output: "export"` (e.g. GitHub Pages). */
@@ -54,7 +54,7 @@ export default async function OpenGraphImage({
 }) {
   const { locale: localeParam } = await params;
   const locale = resolveLocale(localeParam);
-  const t = await getTranslations({ locale, namespace: "seo" });
+  const copy = getOgSeoCopy(locale);
 
   return new ImageResponse(
     (
@@ -81,12 +81,12 @@ export default async function OpenGraphImage({
             minWidth: 0,
           }}
         >
-          <div style={{ fontSize: 40, fontWeight: 700, color: "#d4b76a" }}>{t("brandName")}</div>
+          <div style={{ fontSize: 40, fontWeight: 700, color: "#d4b76a" }}>{copy.brandName}</div>
           <div style={{ fontSize: 64, fontWeight: 800, marginTop: 16, lineHeight: 1.1 }}>
-            {t("ogHeadline")}
+            {copy.ogHeadline}
           </div>
           <div style={{ fontSize: 28, marginTop: 20, opacity: 0.88, lineHeight: 1.35 }}>
-            {t("ogSubheadline")}
+            {copy.ogSubheadline}
           </div>
         </div>
       </div>
