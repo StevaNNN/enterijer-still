@@ -3,8 +3,19 @@ import Image from "next/image";
 import type { Locale } from "@/src/i18n/locale";
 import { CLOUDINARY_SITE_IMAGES } from "@/lib/cloudinary-assets";
 import { cloudinaryImageUrl } from "@/lib/cloudinary-url";
+import {
+  BrandGlow,
+  SectionEyebrow,
+  SectionHeading,
+  SECTION_CARD_LIGHT,
+  SECTION_PADDING,
+} from "@/components/ui/section-decor";
+import { cn } from "@/lib/utils";
 
-const TEAM_IMG = cloudinaryImageUrl(CLOUDINARY_SITE_IMAGES.aboutTeam, "portrait");
+const TEAM_IMG = cloudinaryImageUrl(
+  CLOUDINARY_SITE_IMAGES.aboutTeam,
+  "portrait",
+);
 
 type AboutSectionProps = {
   locale: Locale;
@@ -13,88 +24,118 @@ type AboutSectionProps = {
 export default async function AboutSection({ locale }: AboutSectionProps) {
   const t = await getTranslations({ locale, namespace: "about" });
 
+  const stats = [
+    { value: "10+", label: t("stats.experience") },
+    { value: "500+", label: t("stats.projects") },
+    { value: "50+", label: t("stats.partners") },
+  ];
+
   return (
     <section
       id="about"
-      className="relative py-24 md:py-32 bg-[var(--surface)] dark:bg-[var(--surface-inverse)] overflow-hidden w-full"
+      className={cn(
+        "relative w-full overflow-hidden bg-[var(--surface)] dark:bg-[var(--surface-inverse)]",
+        SECTION_PADDING,
+      )}
     >
-      <div className="absolute top-1/2 left-0 w-96 h-96 bg-[var(--brand)]/10 rounded-full blur-[120px] -translate-y-1/2" />
+      <BrandGlow
+        size="lg"
+        className="-left-32 top-1/3 -translate-y-1/2"
+        animated
+      />
+      <BrandGlow
+        size="md"
+        intensity="soft"
+        className="-right-24 bottom-10"
+      />
 
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-8 h-[2px] bg-[var(--brand)]" />
-          <span className="text-[var(--brand)] text-sm tracking-[0.2em] uppercase font-medium">
-            {t("eyebrow")}
-          </span>
+      <div className="relative max-w-7xl mx-auto px-6">
+        <div className="mb-10">
+          <SectionEyebrow>{t("eyebrow")}</SectionEyebrow>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Text Content */}
           <div>
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground dark:text-white leading-tight mb-6">
-              {t("titleLine1")}
-              <br />
-              <span className="text-foreground/60 dark:text-white/40">{t("titleLine2")}</span>
-            </h2>
+            <SectionHeading
+              line1={t("titleLine1")}
+              line2={t("titleLine2")}
+              size="lg"
+              className="mb-8"
+            />
 
-            <p className="text-foreground/80 dark:text-white/60 text-lg leading-relaxed mb-6">
+            <p className="mb-6 text-lg leading-relaxed text-foreground/80 dark:text-white/65">
               {t("description1")}
             </p>
 
-            <p className="text-foreground/70 dark:text-white/50 leading-relaxed mb-10">
+            <p className="mb-10 leading-relaxed text-foreground/70 dark:text-white/55">
               {t("description2")}
             </p>
 
-            {/* Counters */}
-            <div className="grid grid-cols-3 gap-6">
-              {[
-                { target: 10, suffix: "+", label: t("stats.experience") },
-                { target: 500, suffix: "+", label: t("stats.projects") },
-                { target: 50, suffix: "+", label: t("stats.partners") },
-              ].map((item) => (
-                <div key={item.label} className="flex flex-col">
-                  <span className="text-4xl md:text-5xl font-bold text-[var(--brand)]">
-                    {item.target}
-                    {item.suffix}
-                  </span>
-                  <span className="text-foreground/60 dark:text-white/40 text-sm mt-2">
-                    {item.label}
-                  </span>
-                </div>
-              ))}
+            {/* Stats dock */}
+            <div
+              className={cn(
+                SECTION_CARD_LIGHT,
+                "max-w-xl backdrop-blur-md",
+              )}
+            >
+              <dl className="grid grid-cols-3 divide-x divide-border dark:divide-white/10">
+                {stats.map((stat) => (
+                  <div
+                    key={stat.label}
+                    className="flex flex-col items-start gap-1 px-4 py-5 sm:px-6 md:px-7"
+                  >
+                    <dt className="text-3xl md:text-4xl font-bold tracking-tight text-[var(--brand)]">
+                      {stat.value}
+                    </dt>
+                    <dd className="text-xs leading-snug text-foreground/60 dark:text-white/55 md:text-sm">
+                      {stat.label}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
             </div>
           </div>
 
           {/* Image */}
           <div className="relative">
-            <div className="relative rounded-2xl overflow-hidden group">
+            <div
+              className={cn(
+                "relative overflow-hidden rounded-2xl border border-white/15 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.45)]",
+              )}
+            >
               <Image
                 src={TEAM_IMG}
                 alt={t("teamAlt")}
                 width={900}
                 height={1200}
                 sizes="(min-width: 1024px) 45vw, 100vw"
-                className="w-full h-[500px] object-cover transition-transform duration-700 group-hover:scale-105"
+                className="h-[500px] w-full object-cover transition-transform duration-[1200ms] hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
 
-              {/* Floating card */}
-              <div className="absolute bottom-6 left-6 right-6 bg-white/10 backdrop-blur-xl rounded-xl p-5 border border-white/10">
+              {/* Floating director card */}
+              <div className="absolute inset-x-6 bottom-6 rounded-xl border border-white/15 bg-white/10 p-5 backdrop-blur-xl shadow-[0_8px_30px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.12)]">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[var(--brand)] to-[var(--brand-strong)] flex items-center justify-center text-white font-bold text-lg">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[var(--brand)] to-[var(--brand-strong)] text-lg font-bold text-white shadow-lg shadow-[var(--brand)]/30">
                     ES
                   </div>
                   <div>
-                    <p className="text-white font-semibold">
+                    <p className="font-semibold text-white">
                       {t("directorName")}
                     </p>
-                    <p className="text-white/50 text-sm">{t("directorRole")}</p>
+                    <p className="text-sm text-white/60">
+                      {t("directorRole")}
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="absolute -top-4 -right-4 w-full h-full rounded-2xl border border-[var(--brand)]/30 -z-10" />
+            {/* Offset brand frame */}
+            <div
+              aria-hidden
+              className="absolute -top-4 -right-4 -z-10 h-full w-full rounded-2xl border border-[var(--brand)]/35 bg-[var(--brand)]/[0.04]"
+            />
           </div>
         </div>
       </div>

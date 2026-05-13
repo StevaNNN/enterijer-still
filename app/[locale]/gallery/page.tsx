@@ -63,9 +63,7 @@ export default async function GalleryPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
       />
       <Navbar />
-      <div className="pt-24">
-        <GallerySection locale={locale} />
-      </div>
+      <GallerySection locale={locale} />
       <Footer locale={locale} />
     </main>
   );

@@ -3,6 +3,13 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import type { GalleryCategory } from "@/lib/gallery-data";
+import {
+  BrandGlow,
+  SectionEyebrow,
+  SectionHeading,
+  SECTION_PADDING,
+} from "@/components/ui/section-decor";
+import { cn } from "@/lib/utils";
 
 type GalleryItem = {
   src: string;
@@ -53,47 +60,59 @@ export default function GalleryClient({
   return (
     <section
       id="gallery"
-      className="relative py-24 md:py-32 bg-[var(--surface-2)] dark:bg-[var(--surface-2)] w-full"
+      className={cn(
+        "relative w-full overflow-hidden bg-[var(--surface-2)] dark:bg-[var(--surface-2)]",
+        SECTION_PADDING,
+      )}
     >
-      <div className="absolute top-0 right-0 w-96 h-96 bg-[var(--brand)]/10 rounded-full blur-[150px]" />
+      <BrandGlow size="lg" className="-right-24 top-0" animated />
+      <BrandGlow
+        size="md"
+        intensity="soft"
+        className="-left-24 bottom-1/4"
+      />
 
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="relative max-w-7xl mx-auto px-6">
         <div className="mb-12">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-[2px] bg-[var(--brand)]" />
-            <span className="text-[var(--brand)] text-sm tracking-[0.2em] uppercase font-medium">
-              {headingEyebrow}
-            </span>
-          </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground leading-tight">
-            {headingLine1}
-            <br />
-            <span className="text-foreground/50">{headingLine2}</span>
-          </h2>
+          <SectionEyebrow className="mb-6">{headingEyebrow}</SectionEyebrow>
+          <SectionHeading
+            line1={headingLine1}
+            line2={headingLine2}
+            size="lg"
+          />
         </div>
 
-        <div className="flex flex-wrap gap-2 mb-10">
-          {categories.map((category) => (
-            <button
-              key={category.key}
-              onClick={() => setActiveFilter(category.key)}
-              aria-pressed={activeFilter === category.key}
-              className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                activeFilter === category.key
-                  ? "bg-[var(--brand)] text-[var(--text-on-inverse)]"
-                  : "bg-foreground/5 text-foreground/70 hover:bg-foreground/10 hover:text-foreground border border-border"
-              }`}
-            >
-              {category.label}
-            </button>
-          ))}
+        <div className="mb-10 flex flex-wrap gap-2">
+          {categories.map((category) => {
+            const active = activeFilter === category.key;
+            return (
+              <button
+                key={category.key}
+                onClick={() => setActiveFilter(category.key)}
+                aria-pressed={active}
+                className={cn(
+                  "inline-flex items-center justify-center rounded-full border px-5 py-2 text-sm font-medium transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--brand-solid)]",
+                  active &&
+                    "border-transparent bg-[var(--brand-solid)] text-[var(--text-on-inverse)] shadow-lg shadow-[var(--brand)]/30 hover:bg-[var(--brand-solid-hover)]",
+                  !active &&
+                    cn(
+                      "backdrop-blur-md",
+                      "border-black/12 bg-white/55 text-foreground hover:border-black/22 hover:bg-white/90",
+                      "dark:border-white/30 dark:bg-white/5 dark:text-white dark:hover:border-white/60 dark:hover:bg-white/10",
+                    ),
+                )}
+              >
+                {category.label}
+              </button>
+            );
+          })}
         </div>
 
-        <div className="columns-1 md:columns-2 lg:columns-3 gap-4 space-y-4">
+        <div className="columns-1 gap-4 space-y-4 md:columns-2 lg:columns-3">
           {filtered.map((image, index) => (
             <div
               key={image.src}
-              className="break-inside-avoid group relative rounded-2xl overflow-hidden cursor-pointer"
+              className="group relative cursor-pointer break-inside-avoid overflow-hidden rounded-2xl border border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.12),inset_0_1px_0_rgba(255,255,255,0.08)] transition-all duration-500 hover:border-[var(--brand)]/40 hover:shadow-[0_20px_50px_rgba(0,0,0,0.25)]"
               onClick={() => setLightbox(index)}
             >
               <Image
@@ -102,20 +121,23 @@ export default function GalleryClient({
                 width={1200}
                 height={1600}
                 sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-                className={`w-full object-cover transition-transform duration-700 group-hover:scale-110 ${
-                  index % 3 === 0
-                    ? "h-[400px]"
-                    : index % 3 === 1
-                      ? "h-[300px]"
-                      : "h-[350px]"
-                }`}
+                className={cn(
+                  "w-full object-cover transition-transform duration-[1200ms] group-hover:scale-110",
+                  index % 3 === 0 && "h-[400px]",
+                  index % 3 === 1 && "h-[300px]",
+                  index % 3 === 2 && "h-[350px]",
+                )}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="absolute bottom-0 left-0 right-0 p-5 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                <p className="text-white font-semibold text-lg">{image.title}</p>
-                <p className="text-[var(--brand)] text-sm">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+              <div className="absolute inset-x-0 bottom-0 translate-y-full p-5 transition-transform duration-500 group-hover:translate-y-0">
+                <p className="text-lg font-semibold text-white">{image.title}</p>
+                <p className="text-sm text-[var(--brand)]">
                   {categories.find((category) => category.key === image.category)?.label}
                 </p>
+                <span
+                  aria-hidden
+                  className="mt-3 block h-[2px] w-12 bg-gradient-to-r from-[var(--brand)] via-[var(--brand)]/60 to-transparent"
+                />
               </div>
             </div>
           ))}

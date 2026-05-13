@@ -3,6 +3,13 @@ import Image from "next/image";
 import type { Locale } from "@/src/i18n/locale";
 import { SERVICE_IMAGE_PUBLIC_IDS } from "@/lib/cloudinary-assets";
 import { cloudinaryImageUrl } from "@/lib/cloudinary-url";
+import {
+  BrandGlow,
+  SectionEyebrow,
+  SectionHeading,
+  SECTION_PADDING,
+} from "@/components/ui/section-decor";
+import { cn } from "@/lib/utils";
 
 const SERVICE_IMAGES = SERVICE_IMAGE_PUBLIC_IDS.map((publicId) =>
   cloudinaryImageUrl(publicId, "grid"),
@@ -103,58 +110,66 @@ export default async function ServicesSection({ locale }: ServicesSectionProps) 
   return (
     <section
       id="services"
-      className="relative py-24 md:py-32 bg-[var(--surface)] dark:bg-[var(--surface-inverse)] w-full"
+      className={cn(
+        "relative w-full overflow-hidden bg-[var(--surface)] dark:bg-[var(--surface-inverse)]",
+        SECTION_PADDING,
+      )}
     >
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="mb-16">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-[2px] bg-[var(--brand)]" />
-            <span className="text-[var(--brand)] text-sm tracking-[0.2em] uppercase font-medium">
-              {t("eyebrow")}
-            </span>
-          </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground dark:text-white leading-tight">
-            {t("titleLine1")}
-            <br />
-            <span className="text-foreground/60 dark:text-white/40">{t("titleLine2")}</span>
-          </h2>
+      <BrandGlow size="lg" className="-right-32 top-1/4" animated />
+      <BrandGlow size="md" intensity="soft" className="-left-24 bottom-20" />
+
+      <div className="relative max-w-7xl mx-auto px-6">
+        <div className="mb-14 md:mb-16">
+          <SectionEyebrow className="mb-6">{t("eyebrow")}</SectionEyebrow>
+          <SectionHeading
+            line1={t("titleLine1")}
+            line2={t("titleLine2")}
+            size="lg"
+          />
         </div>
 
         {/* Bento Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-          {services.map((service, i) => (
+          {services.map((service) => (
             <div
               key={service.title}
-              className={`relative group rounded-2xl overflow-hidden cursor-pointer ${service.span} transition-all duration-700`}
-              style={{
-                transitionDelay: `${i * 100 + 200}ms`,
-                opacity: 1,
-                transform: "translateY(0)",
-              }}
+              className={cn(
+                "group relative cursor-pointer overflow-hidden rounded-2xl border border-white/10 shadow-[0_8px_40px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.08)] transition-all duration-700 hover:border-[var(--brand)]/40 hover:shadow-[0_20px_60px_rgba(0,0,0,0.35)]",
+                service.span,
+              )}
             >
-              {/* Background Image */}
               <Image
                 src={service.image}
                 alt={service.title}
                 fill
                 sizes="(min-width: 1024px) 25vw, 100vw"
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-110"
               />
 
-              {/* Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500" />
+              {/* Multi-stop overlay so type is always readable, and the brand color hints from the bottom */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent opacity-85 transition-opacity duration-500 group-hover:opacity-95" />
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[var(--brand)]/25 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+              />
 
               {/* Content */}
-              <div className="relative z-10 p-6 md:p-8 flex flex-col justify-end min-h-[280px] lg:min-h-[320px]">
-                <div className="w-12 h-12 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10 flex items-center justify-center text-[var(--brand)] mb-4 transition-all duration-300 group-hover:bg-[var(--brand)]/20 group-hover:border-[var(--brand)]/40">
+              <div className="relative z-10 flex min-h-[280px] flex-col justify-end p-6 md:p-8 lg:min-h-[320px]">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-white/15 bg-white/10 text-[var(--brand)] backdrop-blur-md transition-all duration-300 group-hover:scale-110 group-hover:border-[var(--brand)]/50 group-hover:bg-[var(--brand)]/20">
                   {service.icon}
                 </div>
-                <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
+                <h3 className="mb-2 text-xl font-bold text-white md:text-2xl">
                   {service.title}
                 </h3>
-                <p className="text-white/50 text-sm leading-relaxed max-w-md group-hover:text-white/70 transition-colors duration-300">
+                <p className="max-w-md text-sm leading-relaxed text-white/55 transition-colors duration-300 group-hover:text-white/80">
                   {service.description}
                 </p>
+
+                {/* Brand-color accent bar that grows on hover */}
+                <span
+                  aria-hidden
+                  className="mt-5 block h-[2px] w-12 bg-gradient-to-r from-[var(--brand)] via-[var(--brand)]/60 to-transparent transition-all duration-500 group-hover:w-24"
+                />
               </div>
             </div>
           ))}

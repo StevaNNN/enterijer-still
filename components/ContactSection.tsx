@@ -3,6 +3,14 @@
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { toast } from "sonner";
+import {
+  BrandGlow,
+  SectionEyebrow,
+  SectionHeading,
+  SECTION_CARD_LIGHT,
+  SECTION_PADDING,
+} from "@/components/ui/section-decor";
+import { cn } from "@/lib/utils";
 
 const GOOGLE_MAP_EMBED_BASE =
   "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2872.5!2d20.9167!3d44.0128!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDTCsDAwJzQ2LjEiTiAyMMKwNTUnMDAuMSJF!5e0!3m2!1sen!2srs!4v1!5m2!1sen!2srs";
@@ -74,36 +82,48 @@ export default function ContactSection() {
     }
   };
 
+  const inputClass =
+    "w-full rounded-xl border border-border bg-card/60 px-4 py-3.5 text-foreground shadow-[inset_0_1px_0_rgba(255,255,255,0.6)] placeholder-muted-foreground/70 backdrop-blur-sm transition-all duration-300 focus:border-[var(--brand)]/60 focus:outline-none focus:ring-4 focus:ring-[var(--brand)]/15 dark:bg-white/[0.04] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]";
+
   return (
     <section
       id="contact"
-      className="relative py-24 md:py-32 bg-background w-full"
+      className={cn(
+        "relative w-full overflow-hidden bg-background",
+        SECTION_PADDING,
+      )}
     >
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[var(--brand)]/10 rounded-full blur-[200px]" />
+      <BrandGlow
+        size="xl"
+        className="bottom-0 left-1/2 -translate-x-1/2 translate-y-1/4"
+        animated
+      />
+      <BrandGlow
+        size="md"
+        intensity="soft"
+        className="-right-24 top-24"
+      />
 
-      <div className="max-w-7xl mx-auto px-6">
-        {/* Header */}
-        <div className="mb-16">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-[2px] bg-[var(--brand)]" />
-            <span className="text-[var(--brand)] text-sm tracking-[0.2em] uppercase font-medium">
-              {t("eyebrow")}
-            </span>
-          </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground dark:text-white leading-tight">
-            {t("titleLine1")}
-            <br />
-            <span className="text-foreground/60 dark:text-white/40">{t("titleLine2")}</span>
-          </h2>
+      <div className="relative max-w-7xl mx-auto px-6">
+        <div className="mb-14 md:mb-16">
+          <SectionEyebrow className="mb-6">{t("eyebrow")}</SectionEyebrow>
+          <SectionHeading
+            line1={t("titleLine1")}
+            line2={t("titleLine2")}
+            size="lg"
+          />
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-16">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
           {/* Contact Form */}
-          <div>
+          <div className={cn(SECTION_CARD_LIGHT, "p-6 md:p-8")}>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid sm:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="contact-name" className="block text-foreground/70 dark:text-white/50 text-sm mb-2 font-medium">
+                  <label
+                    htmlFor="contact-name"
+                    className="mb-2 block text-sm font-medium text-foreground/70 dark:text-white/60"
+                  >
                     {t("form.nameLabel")}
                   </label>
                   <input
@@ -114,12 +134,15 @@ export default function ContactSection() {
                     onChange={(e) =>
                       setFormData({ ...formData, name: e.target.value })
                     }
-                    className="w-full bg-card border border-border rounded-xl px-4 py-3.5 text-foreground placeholder-muted-foreground/80 focus:outline-none focus:border-[var(--brand)]/60 transition-all duration-300"
+                    className={inputClass}
                     placeholder={t("form.namePlaceholder")}
                   />
                 </div>
                 <div>
-                  <label htmlFor="contact-email" className="block text-foreground/70 dark:text-white/50 text-sm mb-2 font-medium">
+                  <label
+                    htmlFor="contact-email"
+                    className="mb-2 block text-sm font-medium text-foreground/70 dark:text-white/60"
+                  >
                     {t("form.emailLabel")}
                   </label>
                   <input
@@ -130,14 +153,17 @@ export default function ContactSection() {
                     onChange={(e) =>
                       setFormData({ ...formData, email: e.target.value })
                     }
-                    className="w-full bg-card border border-border rounded-xl px-4 py-3.5 text-foreground placeholder-muted-foreground/80 focus:outline-none focus:border-[var(--brand)]/60 transition-all duration-300"
+                    className={inputClass}
                     placeholder={t("form.emailPlaceholder")}
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="contact-subject" className="block text-foreground/70 dark:text-white/50 text-sm mb-2 font-medium">
+                <label
+                  htmlFor="contact-subject"
+                  className="mb-2 block text-sm font-medium text-foreground/70 dark:text-white/60"
+                >
                   {t("form.subjectLabel")}
                 </label>
                 <input
@@ -147,13 +173,16 @@ export default function ContactSection() {
                   onChange={(e) =>
                     setFormData({ ...formData, subject: e.target.value })
                   }
-                  className="w-full bg-card border border-border rounded-xl px-4 py-3.5 text-foreground placeholder-muted-foreground/80 focus:outline-none focus:border-[var(--brand)]/60 transition-all duration-300"
+                  className={inputClass}
                   placeholder={t("form.subjectPlaceholder")}
                 />
               </div>
 
               <div>
-                <label htmlFor="contact-message" className="block text-foreground/70 dark:text-white/50 text-sm mb-2 font-medium">
+                <label
+                  htmlFor="contact-message"
+                  className="mb-2 block text-sm font-medium text-foreground/70 dark:text-white/60"
+                >
                   {t("form.messageLabel")}
                 </label>
                 <textarea
@@ -163,7 +192,7 @@ export default function ContactSection() {
                   onChange={(e) =>
                     setFormData({ ...formData, message: e.target.value })
                   }
-                  className="w-full bg-card border border-border rounded-xl px-4 py-3.5 text-foreground placeholder-muted-foreground/80 focus:outline-none focus:border-[var(--brand)]/60 transition-all duration-300 resize-none"
+                  className={cn(inputClass, "resize-none")}
                   placeholder={t("form.messagePlaceholder")}
                 />
               </div>
@@ -185,9 +214,15 @@ export default function ContactSection() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full sm:w-auto px-10 py-4 text-sm font-semibold text-[var(--text-on-inverse)] bg-gradient-to-r from-[var(--brand)] to-[var(--brand-strong)] rounded-full hover:shadow-xl hover:shadow-[var(--brand)]/30 transition-all duration-300 hover:scale-105"
+                className="group relative inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-full bg-[var(--brand-solid)] px-10 py-4 text-sm font-semibold text-[var(--text-on-inverse)] shadow-lg shadow-[var(--brand)]/30 transition-all duration-300 hover:scale-[1.02] hover:bg-[var(--brand-solid-hover)] hover:shadow-xl hover:shadow-[var(--brand)]/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--brand-solid)] disabled:opacity-70 sm:w-auto"
               >
-                {isSubmitting ? t("form.submitting") : t("form.submit")}
+                <span
+                  aria-hidden
+                  className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 group-hover:translate-x-full"
+                />
+                <span className="relative">
+                  {isSubmitting ? t("form.submitting") : t("form.submit")}
+                </span>
               </button>
             </form>
           </div>
@@ -196,7 +231,12 @@ export default function ContactSection() {
           <div>
             <div className="space-y-6">
               {/* Phone */}
-              <div className="bg-card backdrop-blur-sm border border-border rounded-2xl p-6 hover:border-[var(--brand)]/30 transition-all duration-300 group">
+              <div
+                className={cn(
+                  SECTION_CARD_LIGHT,
+                  "group p-6 transition-all duration-300 hover:border-[var(--brand)]/40 hover:shadow-[0_18px_40px_rgba(0,0,0,0.08)]",
+                )}
+              >
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 rounded-xl bg-[var(--brand)]/10 flex items-center justify-center text-[var(--brand)] flex-shrink-0 group-hover:bg-[var(--brand)]/20 transition-colors">
                     <svg
@@ -229,7 +269,12 @@ export default function ContactSection() {
               </div>
 
               {/* Email */}
-              <div className="bg-card backdrop-blur-sm border border-border rounded-2xl p-6 hover:border-[var(--brand)]/30 transition-all duration-300 group">
+              <div
+                className={cn(
+                  SECTION_CARD_LIGHT,
+                  "group p-6 transition-all duration-300 hover:border-[var(--brand)]/40 hover:shadow-[0_18px_40px_rgba(0,0,0,0.08)]",
+                )}
+              >
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 rounded-xl bg-[var(--brand)]/10 flex items-center justify-center text-[var(--brand)] flex-shrink-0 group-hover:bg-[var(--brand)]/20 transition-colors">
                     <svg
@@ -259,7 +304,12 @@ export default function ContactSection() {
               </div>
 
               {/* Address */}
-              <div className="bg-card backdrop-blur-sm border border-border rounded-2xl p-6 hover:border-[var(--brand)]/30 transition-all duration-300 group">
+              <div
+                className={cn(
+                  SECTION_CARD_LIGHT,
+                  "group p-6 transition-all duration-300 hover:border-[var(--brand)]/40 hover:shadow-[0_18px_40px_rgba(0,0,0,0.08)]",
+                )}
+              >
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 rounded-xl bg-[var(--brand)]/10 flex items-center justify-center text-[var(--brand)] flex-shrink-0 group-hover:bg-[var(--brand)]/20 transition-colors">
                     <svg
@@ -292,8 +342,13 @@ export default function ContactSection() {
                 </div>
               </div>
 
-              {/* Map placeholder */}
-              <div className="rounded-2xl overflow-hidden border border-border h-[200px]">
+              {/* Map */}
+              <div
+                className={cn(
+                  SECTION_CARD_LIGHT,
+                  "h-[220px] overflow-hidden p-0",
+                )}
+              >
                 <iframe
                   title={t("mapTitle")}
                   src={mapEmbedSrc}

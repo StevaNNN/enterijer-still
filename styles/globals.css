@@ -83,6 +83,9 @@
   --sidebar-ring: oklch(0.708 0 0);
   --brand: #CA4C15;
   --brand-strong: #8b6f3a;
+  /* Filled controls (white label): same as brand in light; meets contrast with --text-on-inverse */
+  --brand-solid: #CA4C15;
+  --brand-solid-hover: #a54215;
   --surface: #ffffff;
   --surface-2: #f8f8f8;
   --surface-inverse: #202526;
@@ -121,8 +124,11 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
-  --brand: #d4b76a;
-  --brand-strong: #c8a45c;
+  /* Brighter orange for text/rules on dark UI; darker pair for filled buttons + white text (WCAG AA) */
+  --brand: #fb923c;
+  --brand-strong: #f97316;
+  --brand-solid: #c2410c;
+  --brand-solid-hover: #9a3412;
   --surface: #0a0a0a;
   --surface-2: #0f0f0f;
   --surface-inverse: #0a0a0a;
@@ -138,5 +144,67 @@
   }
   html {
     @apply font-sans;
+  }
+}
+
+/* Section design system animations (used by HeroSection and section-decor primitives) */
+@keyframes es-kenburns {
+  0% {
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+  100% {
+    transform: scale(1.08) translate3d(-1.5%, -1%, 0);
+  }
+}
+
+@keyframes es-glow {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: translate3d(2%, -2%, 0) scale(1.08);
+  }
+}
+
+@keyframes es-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@layer utilities {
+  .logo-dark-mode {
+    &:is(.dark *) {
+      filter: invert(1) hue-rotate(180deg);
+    }
+  }
+
+  .animate-hero-kenburns {
+    animation: es-kenburns 22s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+
+  .animate-hero-glow {
+    animation: es-glow 9s ease-in-out infinite;
+    will-change: opacity, transform;
+  }
+
+  /* Wrap any element with this to spin it slowly. Applied to a plain DIV (not the SVG)
+     so transform-origin behaves like a normal block element. */
+  .animate-spin-slow {
+    animation: es-spin 14s linear infinite;
+    transform-origin: 50% 50%;
+    will-change: transform;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-hero-kenburns,
+    .animate-hero-glow,
+    .animate-spin-slow {
+      animation: none;
+    }
   }
 }

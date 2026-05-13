@@ -63,9 +63,7 @@ export default async function ProductsPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
       />
       <Navbar />
-      <div className="pt-24">
-        <ProductsSection locale={locale} />
-      </div>
+      <ProductsSection locale={locale} />
       <Footer locale={locale} />
     </main>
   );

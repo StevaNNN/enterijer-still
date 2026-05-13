@@ -5,14 +5,10 @@ import { cn } from "@/lib/utils";
 import { smoothScrollTo } from "@/lib/smooth-scroll";
 import { usePathname } from "next/navigation";
 import { useLocale } from "next-intl";
-
-type FooterLink = {
-  label: string;
-  href: string;
-};
+import type { SiteNavLink } from "@/lib/site-nav";
 
 type FooterNavLinksClientProps = {
-  links: FooterLink[];
+  links: SiteNavLink[];
 };
 
 export default function FooterNavLinksClient({ links }: FooterNavLinksClientProps) {
@@ -47,9 +43,10 @@ export default function FooterNavLinksClient({ links }: FooterNavLinksClientProp
             aria-current={active ? "location" : undefined}
             className={cn(
               "pl-3 -ml-3 border-l-2 text-sm transition-colors duration-300",
-              active
-                ? "border-[var(--brand)] text-[var(--brand)] font-medium"
-                : "border-transparent text-foreground/70 dark:text-white/60 hover:text-[var(--brand)]",
+              active &&
+                "border-[var(--brand)] text-[var(--brand)] font-medium",
+              !active &&
+                "border-transparent text-foreground/70 dark:text-white/60 hover:text-[var(--brand)]",
             )}
           >
             {link.label}

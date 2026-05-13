@@ -1,6 +1,10 @@
+import Image from "next/image";
+import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import FooterNavLinksClient from "@/components/client/FooterNavLinksClient";
 import type { Locale } from "@/src/i18n/locale";
+import { BrandGlow } from "@/components/ui/section-decor";
+import { getSiteNavLinks } from "@/lib/site-nav";
 
 type FooterProps = {
   locale: Locale;
@@ -8,6 +12,7 @@ type FooterProps = {
 
 export default async function Footer({ locale }: FooterProps) {
   const t = await getTranslations({ locale, namespace: "footer" });
+  const tNavbar = await getTranslations({ locale, namespace: "navbar" });
   const currentYear = new Date().getFullYear();
   const addressQuery = encodeURIComponent(
     "Milovana Vidakovića 4, 34000 Kragujevac, Srbija",
@@ -15,26 +20,33 @@ export default async function Footer({ locale }: FooterProps) {
   const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${addressQuery}`;
   const appleMapsUrl = `https://maps.apple.com/?q=${addressQuery}`;
 
-  const navLinks = [
-    { label: t("links.home"), href: "#hero" },
-    { label: t("links.about"), href: "#about" },
-    { label: t("links.services"), href: "#services" },
-    { label: t("links.gallery"), href: "/gallery" },
-    { label: t("links.products"), href: "/products" },
-    { label: t("links.contact"), href: "#contact" },
-  ];
+  const navLinks = getSiteNavLinks(tNavbar);
 
   return (
-    <footer className="relative bg-background dark:bg-[var(--surface-inverse)] border-t border-border w-full">
-      <div className="max-w-7xl mx-auto px-6 py-16">
+    <footer className="relative w-full overflow-hidden border-t border-border bg-background dark:bg-[var(--surface-inverse)]">
+      <BrandGlow size="lg" intensity="soft" className="-left-32 bottom-0" />
+      <BrandGlow size="md" intensity="soft" className="-right-24 top-0" />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--brand)]/40 to-transparent"
+      />
+      <div className="relative max-w-7xl mx-auto px-6 py-16">
         <div className="grid md:grid-cols-3 gap-12">
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[var(--brand)] to-[var(--brand-strong)] flex items-center justify-center text-white font-bold text-lg">
-                E
-              </div>
-              <div className="flex flex-col">
+            <Link
+              href={`/${locale}`}
+              className="inline-flex items-center gap-3 mb-4 group w-fit"
+            >
+              <Image
+                src="/logo-dark.svg"
+                alt={tNavbar("logoAlt")}
+                width={188}
+                height={180}
+                unoptimized
+                className="h-10 w-auto shrink-0 transition-transform duration-300 group-hover:scale-105 logo-dark-mode"
+              />
+              <div className="flex flex-col min-w-0">
                 <span className="text-foreground dark:text-white font-bold text-lg tracking-wide leading-tight">
                   EnterijerStil
                 </span>
@@ -42,7 +54,7 @@ export default async function Footer({ locale }: FooterProps) {
                   Kragujevac
                 </span>
               </div>
-            </div>
+            </Link>
             <p className="text-foreground/70 dark:text-white/60 text-sm leading-relaxed max-w-xs">
               {t("description")}
             </p>
@@ -51,7 +63,7 @@ export default async function Footer({ locale }: FooterProps) {
                 href="https://www.facebook.com/enterijerstilkg/?locale=sr_RS"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-foreground/5 dark:bg-white/5 border border-border flex items-center justify-center text-foreground/60 dark:text-white/60 hover:text-[var(--brand)] hover:border-[var(--brand)]/30 transition-all duration-300"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-foreground/5 text-foreground/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)] backdrop-blur-md transition-all duration-300 hover:scale-110 hover:border-[var(--brand)]/40 hover:text-[var(--brand)] hover:shadow-lg hover:shadow-[var(--brand)]/20 dark:bg-white/5 dark:text-white/60 dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]"
                 aria-label={t("social.facebook")}
               >
                 <svg
@@ -66,7 +78,7 @@ export default async function Footer({ locale }: FooterProps) {
                 href="https://www.instagram.com/enterijerstilkg/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-foreground/5 dark:bg-white/5 border border-border flex items-center justify-center text-foreground/60 dark:text-white/60 hover:text-[var(--brand)] hover:border-[var(--brand)]/30 transition-all duration-300"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-foreground/5 text-foreground/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)] backdrop-blur-md transition-all duration-300 hover:scale-110 hover:border-[var(--brand)]/40 hover:text-[var(--brand)] hover:shadow-lg hover:shadow-[var(--brand)]/20 dark:bg-white/5 dark:text-white/60 dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]"
                 aria-label={t("social.instagram")}
               >
                 <svg
@@ -143,7 +155,10 @@ export default async function Footer({ locale }: FooterProps) {
         </div>
 
         <div className="mt-16 pt-8 border-t border-border flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-foreground/60 dark:text-white/50 text-sm">
+          <p
+            className="text-foreground/60 dark:text-white/50 text-sm"
+            suppressHydrationWarning
+          >
             {t("copyright", { year: currentYear })}
           </p>
         </div>
