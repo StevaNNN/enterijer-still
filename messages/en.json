@@ -1,9 +1,14 @@
 {
   "seo": {
-    "title": "EnterijerStil Kragujevac | Enter a Better Space",
+    "title": "EnterijerStil Kragujevac | Home - Enter a Better Space",
     "description": "EnterijerStil designs, renovates and equips residential and commercial interiors in Kragujevac. Enter a better space with custom interior solutions.",
     "keywords": "enterijer stil, interior design kragujevac, interior renovation, bathroom design, kitchen design, commercial interior, Serbia",
-    "ogImageAlt": "Modern interior by EnterijerStil"
+    "ogImageAlt": "Modern interior by EnterijerStil",
+    "brandName": "EnterijerStil",
+    "ogHeadline": "Enter a better space",
+    "ogSubheadline": "Interior design and renovation in Kragujevac",
+    "openGraphTitle": "Home - Enter a Better Space",
+    "ogSiteName": "Enter a Better Space"
   },
   "navbar": {
     "home": "Home",
@@ -15,9 +20,12 @@
     "toggleMenu": "Toggle menu",
     "theme": "Theme",
     "lightMode": "Light",
-    "darkMode": "Dark"
+    "darkMode": "Dark",
+    "logoAlt": "EnterijerStil logo"
   },
   "hero": {
+    "brandTag": "EnterijerStil Kragujevac",
+    "heroImageAlt": "Modern luxury interior showcase",
     "titleLine1": "Enter a",
     "titleLine2": "better space",
     "description": "We create inspiring interiors. More than a decade of experience in design, renovation and furnishing with high standards.",
@@ -69,9 +77,13 @@
     }
   },
   "gallery": {
+    "lightboxClose": "Close gallery image",
     "eyebrow": "Gallery",
     "titleLine1": "Our",
     "titleLine2": "projects",
+    "viewAll": "View Full Gallery",
+    "pageTitle": "Gallery",
+    "pageDescription": "Browse interior projects by category and style.",
     "filters": {
       "all": "All",
       "kitchens": "Kitchens",
@@ -81,12 +93,7 @@
       "commercial": "Commercial"
     },
     "items": {
-      "item1": { "title": "Modern Kitchen" },
-      "item2": { "title": "Luxury Bedroom" },
-      "item3": { "title": "Spa Bathroom" },
-      "item4": { "title": "Living Room" },
-      "item5": { "title": "Hotel Lobby" },
-      "item6": { "title": "Business Space" }
+      "fallbackTitle": "Project {number}"
     }
   },
   "contact": {
@@ -95,6 +102,7 @@
     "titleLine2": "reach out",
     "mapTitle": "EnterijerStil location",
     "form": {
+      "honeypotLabel": "Website",
       "nameLabel": "Your Name *",
       "namePlaceholder": "Full name",
       "emailLabel": "Your Email *",
@@ -118,8 +126,13 @@
     },
     "info": {
       "phoneTitle": "Phone",
+      "phoneLine1": "064/249-04-58 — Dejan Timotijević, Director",
+      "phoneLine2": "065/88-97-203 — Goran Sentić, Deputy Director",
+      "phoneLine3": "065/88-97-201 · 034/355-198 — Information",
       "emailTitle": "Email",
-      "addressTitle": "Address"
+      "addressTitle": "Address",
+      "addressLine1": "Milovana Vidakovića 4",
+      "addressLine2": "34000 Kragujevac, Serbia"
     }
   },
   "footer": {

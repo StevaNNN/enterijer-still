@@ -4,6 +4,9 @@ import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { toast } from "sonner";
 
+const GOOGLE_MAP_EMBED_BASE =
+  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2872.5!2d20.9167!3d44.0128!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDTCsDAwJzQ2LjEiTiAyMMKwNTUnMDAuMSJF!5e0!3m2!1sen!2srs!4v1!5m2!1sen!2srs";
+
 export default function ContactSection() {
   const t = useTranslations("contact");
   const locale = useLocale();
@@ -12,8 +15,10 @@ export default function ContactSection() {
     email: "",
     subject: "",
     message: "",
+    website: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const mapEmbedSrc = `${GOOGLE_MAP_EMBED_BASE}&hl=${locale}`;
 
   const validateForm = () => {
     if (!formData.name.trim()) {
@@ -60,7 +65,7 @@ export default function ContactSection() {
         return;
       }
 
-      setFormData({ name: "", email: "", subject: "", message: "" });
+      setFormData({ name: "", email: "", subject: "", message: "", website: "" });
       toast.success(t("form.toasts.success"));
     } catch {
       toast.error(t("form.toasts.error"));
@@ -98,10 +103,11 @@ export default function ContactSection() {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid sm:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-foreground/70 dark:text-white/50 text-sm mb-2 font-medium">
+                  <label htmlFor="contact-name" className="block text-foreground/70 dark:text-white/50 text-sm mb-2 font-medium">
                     {t("form.nameLabel")}
                   </label>
                   <input
+                    id="contact-name"
                     type="text"
                     required
                     value={formData.name}
@@ -113,10 +119,11 @@ export default function ContactSection() {
                   />
                 </div>
                 <div>
-                  <label className="block text-foreground/70 dark:text-white/50 text-sm mb-2 font-medium">
+                  <label htmlFor="contact-email" className="block text-foreground/70 dark:text-white/50 text-sm mb-2 font-medium">
                     {t("form.emailLabel")}
                   </label>
                   <input
+                    id="contact-email"
                     type="email"
                     required
                     value={formData.email}
@@ -130,10 +137,11 @@ export default function ContactSection() {
               </div>
 
               <div>
-                <label className="block text-foreground/70 dark:text-white/50 text-sm mb-2 font-medium">
+                <label htmlFor="contact-subject" className="block text-foreground/70 dark:text-white/50 text-sm mb-2 font-medium">
                   {t("form.subjectLabel")}
                 </label>
                 <input
+                  id="contact-subject"
                   type="text"
                   value={formData.subject}
                   onChange={(e) =>
@@ -145,10 +153,11 @@ export default function ContactSection() {
               </div>
 
               <div>
-                <label className="block text-foreground/70 dark:text-white/50 text-sm mb-2 font-medium">
+                <label htmlFor="contact-message" className="block text-foreground/70 dark:text-white/50 text-sm mb-2 font-medium">
                   {t("form.messageLabel")}
                 </label>
                 <textarea
+                  id="contact-message"
                   rows={5}
                   value={formData.message}
                   onChange={(e) =>
@@ -156,6 +165,20 @@ export default function ContactSection() {
                   }
                   className="w-full bg-card border border-border rounded-xl px-4 py-3.5 text-foreground placeholder-muted-foreground/80 focus:outline-none focus:border-[var(--brand)]/60 transition-all duration-300 resize-none"
                   placeholder={t("form.messagePlaceholder")}
+                />
+              </div>
+
+              <div className="hidden" aria-hidden="true">
+                <label htmlFor="contact-website">{t("form.honeypotLabel")}</label>
+                <input
+                  id="contact-website"
+                  name="website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={formData.website}
+                  onChange={(e) =>
+                    setFormData({ ...formData, website: e.target.value })
+                  }
                 />
               </div>
 
@@ -193,13 +216,13 @@ export default function ContactSection() {
                   <div>
                     <h4 className="text-foreground dark:text-white font-semibold mb-2">{t("info.phoneTitle")}</h4>
                     <p className="text-foreground/70 dark:text-white/50 text-sm leading-relaxed">
-                      064/249-04-58 — Dejan Timotijević, direktor
+                      {t("info.phoneLine1")}
                     </p>
                     <p className="text-foreground/70 dark:text-white/50 text-sm leading-relaxed">
-                      065/88-97-203 — Goran Sentić, zamenik direktora
+                      {t("info.phoneLine2")}
                     </p>
                     <p className="text-foreground/70 dark:text-white/50 text-sm leading-relaxed">
-                      065/88-97-201 · 034/355-198 — Informacije
+                      {t("info.phoneLine3")}
                     </p>
                   </div>
                 </div>
@@ -261,9 +284,9 @@ export default function ContactSection() {
                   <div>
                     <h4 className="text-foreground dark:text-white font-semibold mb-2">{t("info.addressTitle")}</h4>
                     <p className="text-foreground/70 dark:text-white/50 text-sm leading-relaxed">
-                      Milovana Vidakovića 4
+                      {t("info.addressLine1")}
                       <br />
-                      34000 Kragujevac, Srbija
+                      {t("info.addressLine2")}
                     </p>
                   </div>
                 </div>
@@ -273,7 +296,7 @@ export default function ContactSection() {
               <div className="rounded-2xl overflow-hidden border border-border h-[200px]">
                 <iframe
                   title={t("mapTitle")}
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2872.5!2d20.9167!3d44.0128!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDTCsDAwJzQ2LjEiTiAyMMKwNTUnMDAuMSJF!5e0!3m2!1sen!2srs!4v1!5m2!1sen!2srs"
+                  src={mapEmbedSrc}
                   width="100%"
                   height="100%"
                   className="h-full w-full dark:invert dark:hue-rotate-180 dark:brightness-90 dark:contrast-125"

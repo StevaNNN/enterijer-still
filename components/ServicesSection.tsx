@@ -1,23 +1,12 @@
-"use client";
+import { getTranslations } from "next-intl/server";
+import Image from "next/image";
+import type { Locale } from "@/src/i18n/locale";
+import { SERVICE_IMAGE_PUBLIC_IDS } from "@/lib/cloudinary-assets";
+import { cloudinaryImageUrl } from "@/lib/cloudinary-url";
 
-import { useEffect, useRef, useState } from "react";
-import { useTranslations } from "next-intl";
-
-const KITCHEN_IMG =
-  "https://mgx-backend-cdn.metadl.com/generate/images/1037926/2026-03-18/fcd05b14-315a-40a0-8116-6450b87c36ea.png";
-const BEDROOM_IMG =
-  "https://mgx-backend-cdn.metadl.com/generate/images/1037926/2026-03-18/b698fd9c-c3d7-4d9b-879c-e4b8b257c57b.png";
-const OFFICE_IMG =
-  "https://mgx-backend-cdn.metadl.com/generate/images/1037926/2026-03-18/acd1ad20-3070-4aff-a722-a446a8932e23.png";
-const BATHROOM_IMG =
-  "https://mgx-backend-cdn.metadl.com/generate/images/1037926/2026-03-18/087bea59-9f49-4978-9a4f-055e5f1f2718.png";
-
-const SERVICE_IMAGES = [
-  KITCHEN_IMG,
-  BEDROOM_IMG,
-  OFFICE_IMG,
-  BATHROOM_IMG,
-];
+const SERVICE_IMAGES = SERVICE_IMAGE_PUBLIC_IDS.map((publicId) =>
+  cloudinaryImageUrl(publicId, "grid"),
+);
 
 const serviceSpans = [
   "lg:col-span-2 lg:row-span-2",
@@ -97,10 +86,12 @@ const serviceIcons = [
   },
 ] as const;
 
-export default function ServicesSection() {
-  const t = useTranslations("services");
-  const [visible, setVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
+type ServicesSectionProps = {
+  locale: Locale;
+};
+
+export default async function ServicesSection({ locale }: ServicesSectionProps) {
+  const t = await getTranslations({ locale, namespace: "services" });
   const services = [0, 1, 2, 3].map((idx) => ({
     title: t(`items.item${idx + 1}.title`),
     description: t(`items.item${idx + 1}.description`),
@@ -109,30 +100,13 @@ export default function ServicesSection() {
     span: serviceSpans[idx],
   }));
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setVisible(true);
-      },
-      { threshold: 0.1 },
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <section
       id="services"
-      ref={sectionRef}
       className="relative py-24 md:py-32 bg-[var(--surface)] dark:bg-[var(--surface-inverse)] w-full"
     >
       <div className="max-w-7xl mx-auto px-6">
-        {/* Header */}
-        <div
-          className={`mb-16 transition-all duration-700 ${
-            visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-          }`}
-        >
+        <div className="mb-16">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-8 h-[2px] bg-[var(--brand)]" />
             <span className="text-[var(--brand)] text-sm tracking-[0.2em] uppercase font-medium">
@@ -154,14 +128,16 @@ export default function ServicesSection() {
               className={`relative group rounded-2xl overflow-hidden cursor-pointer ${service.span} transition-all duration-700`}
               style={{
                 transitionDelay: `${i * 100 + 200}ms`,
-                opacity: visible ? 1 : 0,
-                transform: visible ? "translateY(0)" : "translateY(20px)",
+                opacity: 1,
+                transform: "translateY(0)",
               }}
             >
               {/* Background Image */}
-              <img
+              <Image
                 src={service.image}
                 alt={service.title}
+                fill
+                sizes="(min-width: 1024px) 25vw, 100vw"
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               />
 

@@ -1,12 +1,15 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
+export const runtime = "nodejs";
+
 type ContactPayload = {
   name?: string;
   email?: string;
   subject?: string;
   message?: string;
   locale?: string;
+  website?: string;
 };
 
 function isValidEmail(email: string) {
@@ -15,6 +18,15 @@ function isValidEmail(email: string) {
 
 function sanitizeHeaderValue(value: string) {
   return value.replace(/[\r\n"]/g, "").trim();
+}
+
+function escapeHtml(value: string) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
 }
 
 export async function POST(req: Request) {
@@ -34,6 +46,11 @@ export async function POST(req: Request) {
   const subject = body.subject?.trim() || "Website contact form";
   const message = body.message?.trim() ?? "";
   const locale = body.locale?.trim() || "en";
+  const website = body.website?.trim() ?? "";
+
+  if (website) {
+    return NextResponse.json({ success: true });
+  }
 
   if (!name || !email || !message) {
     return NextResponse.json(
@@ -45,6 +62,13 @@ export async function POST(req: Request) {
   if (!isValidEmail(email)) {
     return NextResponse.json(
       { success: false, error: "Invalid email format." },
+      { status: 400 },
+    );
+  }
+
+  if (message.length > 5000 || subject.length > 200 || name.length > 120) {
+    return NextResponse.json(
+      { success: false, error: "Input too long." },
       { status: 400 },
     );
   }
@@ -87,19 +111,25 @@ export async function POST(req: Request) {
       auth: { user, pass },
     });
 
-    await transporter.verify();
+    if (process.env.NODE_ENV === "development") {
+      await transporter.verify();
+    }
 
     const safeName = sanitizeHeaderValue(name);
     const safeEmail = sanitizeHeaderValue(email);
+    const safeSubject = sanitizeHeaderValue(subject);
+    const safeMessage = escapeHtml(message);
+    const safeTextName = name.replaceAll("\n", " ").replaceAll("\r", " ");
+    const safeTextEmail = email.replaceAll("\n", " ").replaceAll("\r", " ");
 
     await transporter.sendMail({
       from: `"${safeName} (via EnterijerStil)"`,
       to,
       replyTo: `${safeName} <${safeEmail}>`,
-      subject: `${subject} — ${safeName}`,
+      subject: `${safeSubject} — ${safeName}`,
       text: [
-        `Name: ${name}`,
-        `Email: ${email}`,
+        `Name: ${safeTextName}`,
+        `Email: ${safeTextEmail}`,
         `Locale: ${locale}`,
         "",
         "Message:",
@@ -108,12 +138,12 @@ export async function POST(req: Request) {
       html: `
         <div style="font-family: Arial, sans-serif; line-height:1.5;">
           <h2>New contact form submission</h2>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Locale:</strong> ${locale}</p>
-          <p><strong>Subject:</strong> ${subject}</p>
+          <p><strong>Name:</strong> ${escapeHtml(name)}</p>
+          <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+          <p><strong>Locale:</strong> ${escapeHtml(locale)}</p>
+          <p><strong>Subject:</strong> ${escapeHtml(subject)}</p>
           <p><strong>Message:</strong></p>
-          <p style="white-space: pre-wrap;">${message}</p>
+          <p style="white-space: pre-wrap;">${safeMessage}</p>
         </div>
       `,
     });
@@ -126,7 +156,6 @@ export async function POST(req: Request) {
       host,
       port,
       secure,
-      user,
       to,
       message,
     });

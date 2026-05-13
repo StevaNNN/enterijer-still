@@ -1,0 +1,36 @@
+{
+  "uploads": [
+    {
+      "sourceUrl": "",
+      "publicId": "enterijerstil/site/hero"
+    },
+    {
+      "sourceUrl": "",
+      "publicId": "enterijerstil/site/about-team"
+    },
+    {
+      "sourceUrl": "",
+      "publicId": "enterijerstil/gallery/kitchen-01"
+    },
+    {
+      "sourceUrl": "",
+      "publicId": "enterijerstil/gallery/bedroom-01"
+    },
+    {
+      "sourceUrl": "",
+      "publicId": "enterijerstil/gallery/bathroom-01"
+    },
+    {
+      "sourceUrl": "",
+      "publicId": "enterijerstil/gallery/living-room-01"
+    },
+    {
+      "sourceUrl": "",
+      "publicId": "enterijerstil/gallery/commercial-01"
+    },
+    {
+      "sourceUrl": "",
+      "publicId": "enterijerstil/gallery/commercial-02"
+    }
+  ]
+}

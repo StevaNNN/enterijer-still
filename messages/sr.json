@@ -1,9 +1,14 @@
 {
   "seo": {
-    "title": "EnterijerStil Kragujevac | Uđite u lepši prostor",
+    "title": "EnterijerStil Kragujevac | Početna - UĐITE U LEPŠI PROSTOR SA ENTERIJER STILOM!",
     "description": "EnterijerStil projektuje, renovira i oprema stambene i poslovne enterijere u Kragujevcu. Uđite u lepši prostor uz rešenja po meri.",
     "keywords": "enterijer stil, dizajn enterijera kragujevac, renoviranje enterijera, kupatila, kuhinje, poslovni enterijeri, Srbija",
-    "ogImageAlt": "Moderan enterijer kompanije EnterijerStil"
+    "ogImageAlt": "Moderan enterijer kompanije EnterijerStil",
+    "brandName": "EnterijerStil",
+    "ogHeadline": "Uđite u lepši prostor",
+    "ogSubheadline": "Dizajn, renoviranje i opremanje enterijera u Kragujevcu",
+    "openGraphTitle": "Početna - UĐITE U LEPŠI PROSTOR SA ENTERIJER STILOM!",
+    "ogSiteName": "UĐITE U LEPŠI PROSTOR SA ENTERIJER STILOM!"
   },
   "navbar": {
     "home": "Početna",
@@ -15,9 +20,12 @@
     "toggleMenu": "Otvori navigaciju",
     "theme": "Tema",
     "lightMode": "Svetla",
-    "darkMode": "Tamna"
+    "darkMode": "Tamna",
+    "logoAlt": "Logo EnterijerStil"
   },
   "hero": {
+    "brandTag": "EnterijerStil Kragujevac",
+    "heroImageAlt": "Moderan luksuzni enterijer",
     "titleLine1": "Uđite u",
     "titleLine2": "lepši prostor",
     "description": "Kreiramo enterijere koji inspirišu. Više od decenije iskustva u dizajnu, renoviranju i opremanju prostora po najvišim standardima.",
@@ -69,9 +77,13 @@
     }
   },
   "gallery": {
+    "lightboxClose": "Zatvori sliku u galeriji",
     "eyebrow": "Galerija",
     "titleLine1": "Naši",
     "titleLine2": "projekti",
+    "viewAll": "Pogledajte celu galeriju",
+    "pageTitle": "Galerija",
+    "pageDescription": "Pregledajte projekte enterijera po kategoriji i stilu.",
     "filters": {
       "all": "Sve",
       "kitchens": "Kuhinje",
@@ -81,12 +93,7 @@
       "commercial": "Komercijalni"
     },
     "items": {
-      "item1": { "title": "Moderna Kuhinja" },
-      "item2": { "title": "Luksuzna Spavaća Soba" },
-      "item3": { "title": "Spa Kupatilo" },
-      "item4": { "title": "Dnevni Boravak" },
-      "item5": { "title": "Hotel Lobby" },
-      "item6": { "title": "Poslovni Prostor" }
+      "fallbackTitle": "Projekat {number}"
     }
   },
   "contact": {
@@ -95,6 +102,7 @@
     "titleLine2": "slobodno",
     "mapTitle": "Lokacija EnterijerStil",
     "form": {
+      "honeypotLabel": "Veb sajt",
       "nameLabel": "Vaše Ime *",
       "namePlaceholder": "Ime i prezime",
       "emailLabel": "Vaš Email *",
@@ -118,8 +126,13 @@
     },
     "info": {
       "phoneTitle": "Telefon",
+      "phoneLine1": "064/249-04-58 — Dejan Timotijević, direktor",
+      "phoneLine2": "065/88-97-203 — Goran Sentić, zamenik direktora",
+      "phoneLine3": "065/88-97-201 · 034/355-198 — Informacije",
       "emailTitle": "Email",
-      "addressTitle": "Adresa"
+      "addressTitle": "Adresa",
+      "addressLine1": "Milovana Vidakovića 4",
+      "addressLine2": "34000 Kragujevac, Srbija"
     }
   },
   "footer": {

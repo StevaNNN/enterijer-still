@@ -1,84 +1,27 @@
-"use client";
+import { getTranslations } from "next-intl/server";
+import Image from "next/image";
+import type { Locale } from "@/src/i18n/locale";
+import { CLOUDINARY_SITE_IMAGES } from "@/lib/cloudinary-assets";
+import { cloudinaryImageUrl } from "@/lib/cloudinary-url";
 
-import { useEffect, useRef, useState } from "react";
-import { useTranslations } from "next-intl";
+const TEAM_IMG = cloudinaryImageUrl(CLOUDINARY_SITE_IMAGES.aboutTeam, "portrait");
 
-const TEAM_IMG =
-  "https://mgx-backend-cdn.metadl.com/generate/images/1037926/2026-03-18/4eb978b7-71cd-405b-ba65-b2bcac027c1b.png";
+type AboutSectionProps = {
+  locale: Locale;
+};
 
-function AnimatedCounter({
-  target,
-  suffix = "",
-}: {
-  target: number;
-  suffix?: string;
-}) {
-  const [count, setCount] = useState(0);
-  const ref = useRef<HTMLSpanElement>(null);
-  const started = useRef(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !started.current) {
-          started.current = true;
-          let current = 0;
-          const step = Math.max(1, Math.floor(target / 60));
-          const interval = setInterval(() => {
-            current += step;
-            if (current >= target) {
-              current = target;
-              clearInterval(interval);
-            }
-            setCount(current);
-          }, 20);
-        }
-      },
-      { threshold: 0.5 },
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [target]);
-
-  return (
-    <span ref={ref} className="text-4xl md:text-5xl font-bold text-[var(--brand)]">
-      {count}
-      {suffix}
-    </span>
-  );
-}
-
-export default function AboutSection() {
-  const t = useTranslations("about");
-  const [visible, setVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setVisible(true);
-      },
-      { threshold: 0.2 },
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
+export default async function AboutSection({ locale }: AboutSectionProps) {
+  const t = await getTranslations({ locale, namespace: "about" });
 
   return (
     <section
       id="about"
-      ref={sectionRef}
       className="relative py-24 md:py-32 bg-[var(--surface)] dark:bg-[var(--surface-inverse)] overflow-hidden w-full"
     >
       <div className="absolute top-1/2 left-0 w-96 h-96 bg-[var(--brand)]/10 rounded-full blur-[120px] -translate-y-1/2" />
 
       <div className="max-w-7xl mx-auto px-6">
-        {/* Section Header */}
-        <div
-          className={`flex items-center gap-3 mb-4 transition-all duration-700 ${
-            visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-          }`}
-        >
+        <div className="flex items-center gap-3 mb-4">
           <div className="w-8 h-[2px] bg-[var(--brand)]" />
           <span className="text-[var(--brand)] text-sm tracking-[0.2em] uppercase font-medium">
             {t("eyebrow")}
@@ -87,11 +30,7 @@ export default function AboutSection() {
 
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Text Content */}
-          <div
-            className={`transition-all duration-700 delay-200 ${
-              visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
-          >
+          <div>
             <h2 className="text-4xl md:text-5xl font-bold text-foreground dark:text-white leading-tight mb-6">
               {t("titleLine1")}
               <br />
@@ -114,7 +53,10 @@ export default function AboutSection() {
                 { target: 50, suffix: "+", label: t("stats.partners") },
               ].map((item) => (
                 <div key={item.label} className="flex flex-col">
-                  <AnimatedCounter target={item.target} suffix={item.suffix} />
+                  <span className="text-4xl md:text-5xl font-bold text-[var(--brand)]">
+                    {item.target}
+                    {item.suffix}
+                  </span>
                   <span className="text-foreground/60 dark:text-white/40 text-sm mt-2">
                     {item.label}
                   </span>
@@ -124,15 +66,14 @@ export default function AboutSection() {
           </div>
 
           {/* Image */}
-          <div
-            className={`relative transition-all duration-700 delay-400 ${
-              visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
-          >
+          <div className="relative">
             <div className="relative rounded-2xl overflow-hidden group">
-              <img
+              <Image
                 src={TEAM_IMG}
                 alt={t("teamAlt")}
+                width={900}
+                height={1200}
+                sizes="(min-width: 1024px) 45vw, 100vw"
                 className="w-full h-[500px] object-cover transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />

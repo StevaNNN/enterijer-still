@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { headers } from "next/headers";
 import "@/styles/globals.css";
 import { cn } from "@/lib/utils";
+import { resolveLocale } from "@/src/i18n/locale";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -23,15 +25,19 @@ export const metadata: Metadata = {
   description: "Interior design and renovation studio from Kragujevac.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const headerList = await headers();
+  const locale = resolveLocale(headerList.get("x-next-intl-locale") ?? undefined);
+
   return (
     <html
       suppressHydrationWarning
-      lang="en"
+      lang={locale}
+      prefix="og: http://ogp.me/ns#"
       className={cn(
         "h-full",
         "antialiased",

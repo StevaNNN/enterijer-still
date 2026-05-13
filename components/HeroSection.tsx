@@ -2,24 +2,34 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
+import { smoothScrollTo } from "@/lib/smooth-scroll";
+import { CLOUDINARY_SITE_IMAGES } from "@/lib/cloudinary-assets";
+import { cloudinaryImageUrl } from "@/lib/cloudinary-url";
 
-const HERO_IMG =
-  "https://mgx-backend-cdn.metadl.com/generate/images/1037926/2026-03-18/37457908-a453-4aaf-a893-acb4f0f65e9d.png";
+const HERO_IMG = cloudinaryImageUrl(CLOUDINARY_SITE_IMAGES.hero, "hero");
 
 export default function HeroSection() {
   const t = useTranslations("hero");
   const [offset, setOffset] = useState(0);
-  const visible = true;
 
   useEffect(() => {
-    const handleScroll = () => setOffset(window.scrollY * 0.4);
-    window.addEventListener("scroll", handleScroll);
+    let ticking = false;
+    const handleScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        setOffset(window.scrollY * 0.4);
+        ticking = false;
+      });
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const handleScroll = (e: React.MouseEvent) => {
     e.preventDefault();
-    document.querySelector("#about")?.scrollIntoView({ behavior: "smooth" });
+    smoothScrollTo("#about");
   };
 
   return (
@@ -29,9 +39,12 @@ export default function HeroSection() {
         className="absolute inset-0 w-full h-[120%]"
         style={{ transform: `translateY(-${offset}px)` }}
       >
-        <img
+        <Image
           src={HERO_IMG}
-          alt="Luxury interior"
+          alt={t("heroImageAlt")}
+          fill
+          priority
+          sizes="100vw"
           className="w-full h-full object-cover"
         />
       </div>
@@ -41,15 +54,11 @@ export default function HeroSection() {
 
       {/* Content */}
       <div className="relative z-10 min-h-screen flex flex-col justify-center items-start max-w-7xl mx-auto px-6 py-28 md:py-20">
-        <div
-          className={`transition-all duration-1000 delay-300 ${
-            visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
-        >
+        <div className="transition-all duration-1000 delay-300 opacity-100 translate-y-0">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-12 h-[2px] bg-gradient-to-r from-[var(--brand)] to-transparent" />
             <span className="text-[var(--brand)] text-sm tracking-[0.3em] uppercase font-medium">
-              EnterijerStil Kragujevac
+              {t("brandTag")}
             </span>
           </div>
 
@@ -70,9 +79,7 @@ export default function HeroSection() {
               href="#services"
               onClick={(e) => {
                 e.preventDefault();
-                document
-                  .querySelector("#services")
-                  ?.scrollIntoView({ behavior: "smooth" });
+                smoothScrollTo("#services");
               }}
               className="px-8 py-4 text-sm font-semibold text-[var(--text-on-inverse)] bg-gradient-to-r from-[var(--brand)] to-[var(--brand-strong)] rounded-full hover:shadow-xl hover:shadow-[var(--brand)]/30 transition-all duration-300 hover:scale-105"
             >
@@ -82,9 +89,7 @@ export default function HeroSection() {
               href="#gallery"
               onClick={(e) => {
                 e.preventDefault();
-                document
-                  .querySelector("#gallery")
-                  ?.scrollIntoView({ behavior: "smooth" });
+                smoothScrollTo("#gallery");
               }}
               className="px-8 py-4 text-sm font-semibold text-foreground dark:text-white border border-foreground/40 dark:border-white/30 bg-white/35 dark:bg-black/25 backdrop-blur-sm rounded-full hover:bg-white/60 dark:hover:bg-white/10 hover:border-foreground/60 dark:hover:border-white/50 transition-all duration-300"
             >
@@ -94,11 +99,7 @@ export default function HeroSection() {
         </div>
 
         {/* Stats Bar */}
-        <div
-          className={`mt-12 md:mt-14 transition-all duration-1000 delay-700 ${
-            visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
-        >
+        <div className="mt-12 md:mt-14 transition-all duration-1000 delay-700 opacity-100 translate-y-0">
           <div className="flex flex-wrap gap-6 md:gap-12">
             {[
               { value: "10+", label: t("stats.experience") },

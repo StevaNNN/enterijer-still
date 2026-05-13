@@ -1,9 +1,13 @@
-"use client";
+import { getTranslations } from "next-intl/server";
+import FooterNavLinksClient from "@/components/client/FooterNavLinksClient";
+import type { Locale } from "@/src/i18n/locale";
 
-import { useTranslations } from "next-intl";
+type FooterProps = {
+  locale: Locale;
+};
 
-export default function Footer() {
-  const t = useTranslations("footer");
+export default async function Footer({ locale }: FooterProps) {
+  const t = await getTranslations({ locale, namespace: "footer" });
   const currentYear = new Date().getFullYear();
   const addressQuery = encodeURIComponent(
     "Milovana Vidakovića 4, 34000 Kragujevac, Srbija",
@@ -11,14 +15,13 @@ export default function Footer() {
   const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${addressQuery}`;
   const appleMapsUrl = `https://maps.apple.com/?q=${addressQuery}`;
 
-  const handleNavClick = (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    href: string,
-  ) => {
-    e.preventDefault();
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
-  };
+  const navLinks = [
+    { label: t("links.home"), href: "#hero" },
+    { label: t("links.about"), href: "#about" },
+    { label: t("links.services"), href: "#services" },
+    { label: t("links.gallery"), href: "#gallery" },
+    { label: t("links.contact"), href: "#contact" },
+  ];
 
   return (
     <footer className="relative bg-background dark:bg-[var(--surface-inverse)] border-t border-border w-full">
@@ -80,24 +83,7 @@ export default function Footer() {
             <h4 className="text-foreground dark:text-white font-semibold mb-6 text-sm tracking-wide uppercase">
               {t("navigationTitle")}
             </h4>
-            <div className="flex flex-col gap-3">
-              {[
-                { label: t("links.home"), href: "#hero" },
-                { label: t("links.about"), href: "#about" },
-                { label: t("links.services"), href: "#services" },
-                { label: t("links.gallery"), href: "#gallery" },
-                { label: t("links.contact"), href: "#contact" },
-              ].map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  onClick={(e) => handleNavClick(e, link.href)}
-                  className="text-foreground/70 dark:text-white/60 hover:text-[var(--brand)] transition-colors duration-300 text-sm"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </div>
+            <FooterNavLinksClient links={navLinks} />
           </div>
 
           <div>

@@ -2,8 +2,9 @@
 import type { Metadata } from "next";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages, getTranslations } from "next-intl/server";
+import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { LOCALES, resolveLocale } from "@/src/i18n/locale";
+import { ActiveSectionProvider } from "@/components/providers/active-section-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -22,11 +23,19 @@ export async function generateMetadata({
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.enterijerstil.rs";
   const title = t("title");
   const description = t("description");
+  const openGraphTitle = t("openGraphTitle");
+  const ogSiteName = t("ogSiteName");
+  const ogImageUrl = `${siteUrl}/${locale}/opengraph-image`;
+  const ogLocale = locale === "sr" ? "sr_RS" : "en_US";
 
   return {
     metadataBase: new URL(siteUrl),
     title,
     description,
+    icons: {
+      icon: [{ url: "/logo.png", type: "image/png", sizes: "188x180" }],
+      apple: [{ url: "/logo.png", type: "image/png", sizes: "188x180" }],
+    },
     keywords: t("keywords").split(",").map((item) => item.trim()),
     applicationName: "EnterijerStil",
     authors: [{ name: "EnterijerStil" }],
@@ -41,14 +50,14 @@ export async function generateMetadata({
     },
     openGraph: {
       type: "website",
-      locale,
+      locale: ogLocale,
       url: `${siteUrl}/${locale}`,
-      siteName: "EnterijerStil",
-      title,
+      siteName: ogSiteName,
+      title: openGraphTitle,
       description,
       images: [
         {
-          url: `${siteUrl}/og-image.png`,
+          url: ogImageUrl,
           width: 1200,
           height: 630,
           alt: t("ogImageAlt"),
@@ -57,9 +66,9 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title,
+      title: openGraphTitle,
       description,
-      images: [`${siteUrl}/og-image.png`],
+      images: [ogImageUrl],
     },
     robots: {
       index: true,
@@ -88,7 +97,32 @@ export default async function LocaleLayout({
 }) {
   const { locale: localeParam } = await params;
   const locale = resolveLocale(localeParam);
+  // Ensures `getTranslations()` / `getLocale()` in Server Components use this segment’s locale.
+  setRequestLocale(locale);
   const messages = await getMessages({ locale });
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.enterijerstil.rs";
+  const logoUrl = `${siteUrl}/logo.png`;
+  const ogImageUrl = `${siteUrl}/${locale}/opengraph-image`;
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    name: "EnterijerStil",
+    image: [logoUrl, ogImageUrl],
+    url: siteUrl,
+    telephone: "+381642490458",
+    email: "enterijerstil@gmail.com",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Milovana Vidakovića 4",
+      addressLocality: "Kragujevac",
+      postalCode: "34000",
+      addressCountry: "RS",
+    },
+    sameAs: [
+      "https://www.facebook.com/enterijerstilkg",
+      "https://www.instagram.com/enterijerstilkg/",
+    ],
+  };
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
@@ -99,8 +133,17 @@ export default async function LocaleLayout({
         disableTransitionOnChange={false}
       >
         <TooltipProvider>
-          {children}
-          <Toaster />
+          <ActiveSectionProvider>
+            <script
+              type="application/ld+json"
+              // JSON-LD for local business SEO snippets.
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify(localBusinessSchema),
+              }}
+            />
+            {children}
+            <Toaster />
+          </ActiveSectionProvider>
         </TooltipProvider>
       </ThemeProvider>
     </NextIntlClientProvider>

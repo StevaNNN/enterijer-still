@@ -33,6 +33,9 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# Local Cloudinary bulk-import manifest (may contain third-party image URLs)
+scripts/cloudinary-upload-manifest.json
+
 # vercel
 .vercel
 
