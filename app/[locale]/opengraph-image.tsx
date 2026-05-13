@@ -1,6 +1,13 @@
 import { ImageResponse } from "next/og";
 import { getTranslations } from "next-intl/server";
-import { resolveLocale } from "@/src/i18n/locale";
+import { LOCALES, resolveLocale } from "@/src/i18n/locale";
+
+/** Required when the app uses `output: "export"` (e.g. GitHub Pages). */
+export const dynamic = "force-static";
+
+export function generateStaticParams() {
+  return LOCALES.map((locale) => ({ locale }));
+}
 
 export const size = {
   width: 1200,

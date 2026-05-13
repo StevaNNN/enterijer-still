@@ -1,6 +1,9 @@
 import { MetadataRoute } from "next";
 import { LOCALES } from "@/src/i18n/locale";
 
+/** Required when the app uses `output: "export"` (e.g. GitHub Pages). */
+export const dynamic = "force-static";
+
 const STATIC_LOCALE_PATHS = ["", "/gallery", "/products"] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {

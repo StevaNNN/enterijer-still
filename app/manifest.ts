@@ -1,5 +1,8 @@
 import { MetadataRoute } from "next";
 
+/** Required when the app uses `output: "export"` (e.g. GitHub Pages). */
+export const dynamic = "force-static";
+
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "EnterijerStil",
