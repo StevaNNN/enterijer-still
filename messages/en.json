@@ -127,6 +127,14 @@
       }
     }
   },
+  "references": {
+    "eyebrow": "References",
+    "titleLine1": "Trusted by",
+    "titleLine2": "the best",
+    "intro": "More than a decade building trust with leading partners and clients — from international material brands to hotels, wineries, and companies where every detail matters.",
+    "partnersLabel": "Partners",
+    "clientsLabel": "Clients"
+  },
   "contact": {
     "eyebrow": "Contact",
     "titleLine1": "Feel free to",

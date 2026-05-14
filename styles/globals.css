@@ -175,6 +175,26 @@
   }
 }
 
+/* Marquee track: duplicate items inside, translate by -50% to seamlessly loop.
+   Use the reverse variant on alternating rows for a richer cadence. */
+@keyframes es-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes es-marquee-reverse {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
 @layer utilities {
   .logo-dark-mode {
     &:is(.dark *) {
@@ -200,10 +220,25 @@
     will-change: transform;
   }
 
+  /* Infinite horizontal marquee. Apply to the inner track that contains the
+     items duplicated twice; the parent should clip overflow and (optionally)
+     mask edges. Adjust `--marquee-duration` per row to tune speed. */
+  .animate-marquee {
+    animation: es-marquee var(--marquee-duration, 50s) linear infinite;
+    will-change: transform;
+  }
+
+  .animate-marquee-reverse {
+    animation: es-marquee-reverse var(--marquee-duration, 50s) linear infinite;
+    will-change: transform;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .animate-hero-kenburns,
     .animate-hero-glow,
-    .animate-spin-slow {
+    .animate-spin-slow,
+    .animate-marquee,
+    .animate-marquee-reverse {
       animation: none;
     }
   }

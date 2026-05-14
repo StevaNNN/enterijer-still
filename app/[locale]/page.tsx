@@ -3,6 +3,7 @@ import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import HeroSection from "@/components/HeroSection";
 import Navbar from "@/components/Navbar";
+import ReferencesSection from "@/components/ReferencesSection";
 import ServicesSection from "@/components/ServicesSection";
 import { resolveLocale } from "@/src/i18n/locale";
 import { setRequestLocale } from "next-intl/server";
@@ -22,6 +23,7 @@ export default async function Home({
       <HeroSection />
       <AboutSection locale={locale} />
       <ServicesSection locale={locale} />
+      <ReferencesSection locale={locale} />
       <ContactSection />
       <Footer locale={locale} />
     </main>

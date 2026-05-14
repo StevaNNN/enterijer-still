@@ -127,6 +127,14 @@
       }
     }
   },
+  "references": {
+    "eyebrow": "Reference",
+    "titleLine1": "Verovali su",
+    "titleLine2": "nam najbolji",
+    "intro": "Više od decenije gradimo poverenje sa vodećim partnerima i klijentima — od međunarodnih brendova materijala do hotela, vinarija i kompanija kojima je važan svaki detalj.",
+    "partnersLabel": "Partneri",
+    "clientsLabel": "Klijenti"
+  },
   "contact": {
     "eyebrow": "Kontakt",
     "titleLine1": "Javite nam se",
