@@ -13,6 +13,7 @@ import {
   REFERENCE_PARTNERS,
   type ReferenceItem,
 } from "@/lib/references-data";
+import { cloudinaryImageUrl } from "@/lib/cloudinary-url";
 import AnimatedCounter from "@/components/client/AnimatedCounter";
 
 type ReferencesSectionProps = {
@@ -148,13 +149,12 @@ function ReferenceChip({
           )}
         >
           <Image
-            src={item.logo}
+            src={cloudinaryImageUrl(item.logo, "logo")}
             alt=""
-            width={56}
-            height={36}
+            width={112}
+            height={72}
             aria-hidden
             className="h-7 w-auto max-w-[3rem] object-contain"
-            unoptimized
           />
         </span>
       ) : (

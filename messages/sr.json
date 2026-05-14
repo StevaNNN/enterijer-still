@@ -108,23 +108,43 @@
     "titleLine1": "Materijali i",
     "titleLine2": "oprema kojoj verujemo",
     "intro": "Spajamo dizajn i proverene proizvode kako bi enterijer bio celovit, dugotrajan i prilagođen vašem prostoru—od kuhinja i kupatila do rasvete i završnih detalja.",
-    "items": {
-      "item1": {
-        "title": "Kuhinje i ugradni elementi",
-        "description": "Kuhinje po meri, elementi, radne ploče i skladištenje usklađeni sa rasporedom, funkcijom i željenim stilom."
-      },
-      "item2": {
-        "title": "Kupatila i wellness",
-        "description": "Sanitarije, armature, pločice i wellness elementi birani radi udobnosti, održavanja i elegantnog izgleda."
-      },
-      "item3": {
-        "title": "Podovi, zidovi i plafoni",
-        "description": "Drvo, keramika, kamen i dekorativne završne obrade koje u skladu sa konceptom obezbeđuju akustiku i trajnost."
-      },
-      "item4": {
-        "title": "Rasveta, kvake i dodaci",
-        "description": "Slojevita rasveta, kvake i dodaci koji upotpunjuju dizajn i čine svakodnevnu upotrebu prijatnijom."
-      }
+    "search": {
+      "placeholder": "Pretražite proizvode…",
+      "ariaLabel": "Pretraga proizvoda",
+      "clear": "Obriši pretragu",
+      "emptyTitle": "Nema rezultata za vašu pretragu",
+      "emptyDescription": "Pokušajte drugačiju reč ili obrišite aktivan filter."
+    },
+    "filters": {
+      "title": "Filter",
+      "all": "Svi",
+      "type": "Tip",
+      "material": "Materijal",
+      "color": "Boja",
+      "dimensions": "Dimenzije",
+      "clear": "Obriši filter",
+      "clearAll": "Obriši sve filtere"
+    },
+    "card": {
+      "view": "Pogledaj proizvod"
+    },
+    "detail": {
+      "back": "Nazad na katalog",
+      "type": "Tip",
+      "material": "Materijal",
+      "color": "Boja",
+      "brand": "Brend",
+      "dimensions": "Dimenzije",
+      "width": "Širina",
+      "height": "Visina",
+      "depth": "Debljina",
+      "specsTitle": "Specifikacija",
+      "descriptionTitle": "O proizvodu"
+    },
+    "notFound": {
+      "title": "Proizvod nije pronađen",
+      "description": "Proizvod koji tražite ne postoji ili je preimenovan.",
+      "back": "Nazad na katalog"
     }
   },
   "references": {

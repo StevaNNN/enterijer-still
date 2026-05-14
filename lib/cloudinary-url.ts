@@ -6,6 +6,8 @@ export const CLOUDINARY_IMAGE_PRESETS = {
   lightbox: "f_auto,q_auto,c_limit,w_2200",
   hero: "f_auto,q_auto,c_fill,g_auto,w_1920,h_1080",
   portrait: "f_auto,q_auto,c_fill,g_auto,w_900,h_1200",
+  /** Partner / client logos — scale-down only, no crop, preserves aspect ratio. */
+  logo: "f_auto,q_auto,c_fit,w_112,h_72",
 } as const;
 
 export function cloudinaryImageUrl(

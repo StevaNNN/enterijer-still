@@ -108,23 +108,43 @@
     "titleLine1": "Materials &",
     "titleLine2": "fittings we trust",
     "intro": "We combine design expertise with curated products so every project is cohesive, durable, and tailored to your space—from kitchens and bathrooms to lighting and finishing details.",
-    "items": {
-      "item1": {
-        "title": "Kitchens & built-ins",
-        "description": "Custom kitchen systems, cabinetry, countertops, and storage tailored to layout, workflow, and your preferred style."
-      },
-      "item2": {
-        "title": "Bathrooms & wellness",
-        "description": "Sanitary ware, fixtures, tiles, and wellness elements selected for comfort, easy maintenance, and a refined look."
-      },
-      "item3": {
-        "title": "Flooring, walls & ceilings",
-        "description": "Wood, tile, stone, and decorative finishes that balance acoustics, durability, and the overall interior concept."
-      },
-      "item4": {
-        "title": "Lighting, hardware & accessories",
-        "description": "Layered lighting plans plus hardware and accessories that complete the design and elevate everyday use."
-      }
+    "search": {
+      "placeholder": "Search products…",
+      "ariaLabel": "Search products",
+      "clear": "Clear search",
+      "emptyTitle": "No products match your search",
+      "emptyDescription": "Try a different keyword or clear the active filter."
+    },
+    "filters": {
+      "title": "Filter",
+      "all": "All",
+      "type": "Type",
+      "material": "Material",
+      "color": "Color",
+      "dimensions": "Dimensions",
+      "clear": "Clear filter",
+      "clearAll": "Clear all filters"
+    },
+    "card": {
+      "view": "View product"
+    },
+    "detail": {
+      "back": "Back to catalog",
+      "type": "Type",
+      "material": "Material",
+      "color": "Color",
+      "brand": "Brand",
+      "dimensions": "Dimensions",
+      "width": "Width",
+      "height": "Height",
+      "depth": "Depth",
+      "specsTitle": "Specifications",
+      "descriptionTitle": "About this product"
+    },
+    "notFound": {
+      "title": "Product not found",
+      "description": "The product you're looking for doesn't exist or may have been renamed.",
+      "back": "Back to catalog"
     }
   },
   "references": {

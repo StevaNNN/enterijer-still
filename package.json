@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "upload:cloudinary": "node scripts/cloudinary-bulk-upload.mjs",
+    "migrate:logos": "node scripts/cloudinary-migrate-logos.mjs",
     "import:legacy-gallery": "node scripts/import-legacy-gallery-to-cloudinary.mjs",
     "env:vercel:production": "node scripts/sync-vercel-production-env.mjs"
   },

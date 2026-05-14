@@ -19,6 +19,17 @@ export default function Navbar() {
   const { setTheme, resolvedTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  /**
+   * `next-themes` resolves the theme only on the client, so any markup that
+   * directly depends on `resolvedTheme` would render differently on the
+   * server vs. the first client paint and trigger a hydration mismatch.
+   * Gate theme-dependent strings (aria-label, tooltip text, next-theme
+   * choice) behind this flag, and let CSS handle the icon swap via the
+   * `.dark` class — Tailwind's `dark:` variants are deterministic on both
+   * sides because next-themes sets the class on `<html>` via an inline
+   * script that runs before React hydration.
+   */
+  const [mounted, setMounted] = useState(false);
   const activeHash = useActiveSectionHash();
 
   const navLinks = getSiteNavLinks(t);
@@ -28,6 +39,13 @@ export default function Navbar() {
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    // Defer through rAF so the state update happens outside the synchronous
+    // effect body (React 19 `react-hooks/set-state-in-effect` rule).
+    const rafId = window.requestAnimationFrame(() => setMounted(true));
+    return () => window.cancelAnimationFrame(rafId);
   }, []);
 
   const isHomePage = pathname === `/${locale}`;
@@ -45,7 +63,10 @@ export default function Navbar() {
     Boolean(isHomePage && href.startsWith("#") && activeHash && activeHash === href);
   const isNavLinkActive = (href: string) => {
     if (href.startsWith("/")) {
-      return pathname === `/${locale}${href}`;
+      const target = `/${locale}${href}`;
+      // Match the route itself and any nested sub-route (e.g. /products is
+      // active on /products/all, /products/type/<slug>, /products/all/<slug>).
+      return pathname === target || pathname.startsWith(`${target}/`);
     }
     return isSectionActive(href);
   };
@@ -83,6 +104,10 @@ export default function Navbar() {
   );
   const nextThemeLabel =
     resolvedTheme === "dark" ? t("lightMode") : t("darkMode");
+  /** Stable before mount so SSR and the first client render agree. */
+  const themeAriaLabel = mounted
+    ? `${t("theme")}: ${nextThemeLabel}`
+    : t("theme");
   const handleThemeToggle = () => {
     const nextTheme = resolvedTheme === "dark" ? "light" : "dark";
     setTheme(nextTheme);
@@ -207,13 +232,10 @@ export default function Navbar() {
                 type="button"
                 onClick={handleThemeToggle}
                 className={iconButtonClass}
-                aria-label={`${t("theme")}: ${nextThemeLabel}`}
+                aria-label={themeAriaLabel}
               >
-                {resolvedTheme === "dark" ? (
-                  <Sun className="h-4 w-4" />
-                ) : (
-                  <Moon className="h-4 w-4" />
-                )}
+                <Moon className="h-4 w-4 dark:hidden" />
+                <Sun className="hidden h-4 w-4 dark:block" />
               </button>
             </TooltipTrigger>
             <TooltipContent sideOffset={8}>{nextThemeLabel}</TooltipContent>
@@ -316,13 +338,10 @@ export default function Navbar() {
                   type="button"
                   onClick={handleThemeToggle}
                   className={iconButtonClass}
-                  aria-label={`${t("theme")}: ${nextThemeLabel}`}
+                  aria-label={themeAriaLabel}
                 >
-                  {resolvedTheme === "dark" ? (
-                    <Sun className="h-4 w-4" />
-                  ) : (
-                    <Moon className="h-4 w-4" />
-                  )}
+                  <Moon className="h-4 w-4 dark:hidden" />
+                  <Sun className="hidden h-4 w-4 dark:block" />
                 </button>
               </TooltipTrigger>
               <TooltipContent sideOffset={8}>{nextThemeLabel}</TooltipContent>
